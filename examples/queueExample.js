@@ -1,7 +1,6 @@
 'use strict';
 
-const {delay} = require('../../operations');
-const QueueManager = require('../queueManager');
+const {delay, QueueManager} = require('../lib');
 
 if (require.main === module) {
   example();
