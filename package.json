@@ -1,0 +1,32 @@
+{
+  "name": "@arpinum/promise",
+  "version": "0.0.1",
+  "description": "A simple module that provides basic operations on promises",
+  "main": "./lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "eslint": "./node_modules/.bin/eslint .",
+    "mocha": "./node_modules/.bin/mocha lib",
+    "test": "npm run mocha; code=$?; npm run eslint; exit $((${code}+$?))",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags && npm publish"
+  },
+  "author": "Arpinum",
+  "license": "MIT",
+  "repository": "arpinum-js-engine/js-engine-promise.git",
+  "keywords": [
+    "promise",
+    "async",
+    "map",
+    "queue"
+  ],
+  "devDependencies": {
+    "chai": "3.5.0",
+    "eslint": "3.17.1",
+    "eslint-config-arpinum": "3.0.4",
+    "mocha": "3.2.0",
+    "sinon": "1.17.7"
+  }
+}
