@@ -1,5 +1,5 @@
 {
-  "name": "@arpinum/promise",
+  "name": "@arpinum/promising",
   "version": "0.0.2",
   "description": "A simple module that provides basic operations on promises",
   "main": "./lib/index.js",
@@ -15,7 +15,7 @@
   },
   "author": "Arpinum",
   "license": "MIT",
-  "repository": "arpinum-js-engine/js-engine-promise.git",
+  "repository": "arpinum-js-engine/js-engine-promising.git",
   "keywords": [
     "promise",
     "async",
