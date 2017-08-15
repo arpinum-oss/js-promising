@@ -1,10 +1,10 @@
 'use strict';
 
-const {Queue} = require('../lib');
+const {createQueue} = require('../lib');
 
 const count = 100000;
 
-const queue = new Queue();
+const queue = createQueue();
 
 const start = new Date();
 return enqueueAll().then(printStatistics);

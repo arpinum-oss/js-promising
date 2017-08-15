@@ -1,13 +1,13 @@
 'use strict';
 
-const {delay, QueueManager} = require('../lib');
+const {delay, createQueueManager} = require('../lib');
 
 if (require.main === module) {
   example();
 }
 
 function example() {
-  let queue = new QueueManager().queue('1', {capacity: 3});
+  const queue = createQueueManager().queue('1', {capacity: 3});
 
   const min = 50;
   const max = 700;
