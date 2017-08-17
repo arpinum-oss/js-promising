@@ -11,6 +11,21 @@
 npm install @arpinum/promising --save
 ```
 
+## Features
+
+* [`compose` operation](docs/api.md#compose-operation)
+* [`delay` operation](docs/api.md#delay-operation)
+* [`map` operation](docs/api.md#map-operation)
+* [`mapSeries` operation](docs/api.md#mapseries-operation)
+* [`promisify` operation](docs/api.md#promisify-operation)
+* [`wrap` operation](docs/api.md#wrap-operation)
+* [queue object](docs/api.md#queue-object)
+* [queue manager object](docs/api.md#queue-manager-object)
+
+## Docs
+
+* [API](docs/api.md)
+
 ## License
 
 [MIT](LICENSE)
