@@ -7,7 +7,7 @@
 
 ## Installation
 
-```
+```bash
 npm install @arpinum/promising --save
 ```
 
