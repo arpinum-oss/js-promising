@@ -51,12 +51,11 @@ Creates a promise that is resolved after having applied an async function to val
 * `values: any[]`: values to map
 * `func: function`: mapping function which may return a promise
 * `options?: object`:
-  * `concurrency: number` number of promises to run concurrently. default is `3.
+  * `concurrency?: number` number of promises to run concurrently. default is `3.
 
 #### Return
 
-* `(Promise<any[]>)`: a promise resolved with an array of all function results if all promises are resolved
-* `(Promise<Error>)`: a promise rejected with the first error
+* `(Promise)`: a promise either resolved with an array of all function results if all promises are resolved or rejected with the first error
 
 #### Example
 
