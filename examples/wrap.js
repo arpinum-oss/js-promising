@@ -2,8 +2,10 @@
 
 const {wrap} = require('../lib');
 
-const succeeding = wrap(() => JSON.parse('{"message": "ok"}'));
-succeeding.then(o => console.log(o.message)); // ok
+const parse = wrap(JSON.parse);
 
-const failing = wrap(() => JSON.parse('[}'));
-failing.catch(e => console.error(e.message)); // Unexpected token...
+parse('{"message": "ok"}')
+  .then(o => console.log(o.message)); // ok
+
+parse('[}')
+  .catch(e => console.error(e.message)); // Unexpected token...

@@ -100,28 +100,30 @@ readdir(__dirname)
 
 # `wrap(func)`
 
-Wrap a function either returning a plain value or a promise into a promise.
+Wrap a function either returning an immediate value or a promise into another function returning only a promise.
 
 If any error happens in synchronous code, the promise is rejected.
 
 #### Arguments
 
-* `func: function`: a function to wrap into a promise
+* `func: function`: a function to wrap into another one
 
 #### Return
 
-* `(Promise)`: a promise containing the result either synchronous or promised
+* `(function)`: a function returning a promise containing the result either synchronous or promised
 
 #### Example
 
 ```javascript
 const {wrap} = require('@arpinum/promising');
 
-const succeeding = wrap(() => JSON.parse('{"message": "ok"}'));
-succeeding.then(o => console.log(o.message)); // ok
+const parse = wrap(JSON.parse);
 
-const failing = wrap(() => JSON.parse('[}'));
-failing.catch(e => console.error(e.message)); // Unexpected token...
+parse('{"message": "ok"}')
+  .then(o => console.log(o.message)); // ok
+
+parse('[}')
+  .catch(e => console.error(e.message)); // Unexpected token...
 ```
 
 # `createQueue(options)`
