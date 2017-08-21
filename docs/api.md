@@ -1,15 +1,16 @@
-# `compose` operation
+# `compose(functions)`
 
 Creates a function that returns a promise of the result of invoking the given functions, where each successive async invocation is supplied the return value of the previous.
 
-## Usage
+#### Arguments
 
-`compose(functions)`
+* `functions: function[]`: the functions to invoke
 
-* `functions` `{Array<Function>}`: the functions to invoke
-* returns: `{Function}` returning a promise
+#### Return
 
-## Example
+* `(function)`:  a function returning a promise of the result
+
+#### Example
 
 ```javascript
 const {compose} = require('@arpinum/promising');
@@ -21,18 +22,19 @@ const addSquare = compose([add, square]);
 addSquare(1, 2).then(console.log); // 9
 ```
 
-# `delay` operation
+# `delay(milliseconds)`
 
 Creates a promise that is resolved after given milliseconds.
 
-## Usage
+#### Arguments
 
-`delay(milliseconds)`
+* `milliseconds: number`: delay before resolution
 
-* `milliseconds` `{Number}`: the delay
-* returns: `{Promise}`
+#### Return
 
-## Example
+* `(Promise<void>)`
+
+#### Example
 
 ```javascript
 const {delay} = require('@arpinum/promising');
@@ -40,24 +42,23 @@ const {delay} = require('@arpinum/promising');
 delay(2000).then(() => console.log('tick'));
 ```
 
-# `map` operation
+# `map(values, func, options)`
 
 Creates a promise that is resolved after having applied an async function to values.
 
-## Usage
+#### Arguments
 
-`map(values, func, options)`
+* `values: any[]`: values to map
+* `func: function`: mapping function which may return a promise
+* `options?: object`:
+  * `concurrency: number` number of promises to run concurrently. default is `3.
 
-* `values` `{Array}`: values to map
-* `func` `{Function}`: mapping function which may return a promise
-* `options` `{Object}`: options (see below) 
-* returns: `{Promise}` either resolved with an array of all function results or rejected with the first error
+#### Return
 
-## Options
+* `(Promise<any[]>)`: a promise resolved with an array of all function results if all promises are resolved
+* `(Promise<Error>)`: a promise rejected with the first error
 
-* `concurrency` `{Number}`: number of promises to run concurrently. default is `3.
-
-## Example
+#### Example
 
 ```javascript
 const {map} = require('@arpinum/promising');
@@ -67,14 +68,65 @@ const square = x => Promise.resolve(x * x);
 map([1, 2, 3], square).then(console.log); // [ 1, 4, 9 ]
 ```
 
-# `mapSeries` operation
+# `mapSeries()`
 
-# `promisify` operation
+Same as `map` but with `concurrency` option set to `1` to run only one promise at a time.
 
-# `wrap` operation
+# `promisify(func)`
 
-# queue object
+Promisify a function using an Error-first Node.js style callback.
 
-#  queue manager object
+#### Arguments
+
+* `func: function`: a function using Node.js like convention
+
+#### Return
+
+* `(function)`: a function returning a promise
+
+The function is either rejected with an error if 1st callback parameter is not null, or resolved with the result provided as 2nd parameter to the callback.  
+
+#### Example
+
+```javascript
+const fs = require('fs');
+const {promisify} = require('@arpinum/promising');
+
+const readdir = promisify(fs.readdir);
+
+readdir(__dirname)
+  .then(console.log)
+  .catch(console.error);
+```
+
+# `wrap(func)`
+
+Wrap a function either returning a plain value or a promise into a promise.
+
+If any error happens in synchronous code, the promise is rejected.
+
+#### Arguments
+
+* `func: function`: a function to wrap into a promise
+
+#### Return
+
+* `(Promise)`: a promise containing the result either synchronous or promised
+
+#### Example
+
+```javascript
+const {wrap} = require('@arpinum/promising');
+
+const succeeding = wrap(() => JSON.parse('{"message": "ok"}'));
+succeeding.then(o => console.log(o.message)); // ok
+
+const failing = wrap(() => JSON.parse('[}'));
+failing.catch(e => console.error(e.message)); // Unexpected token...
+```
+
+# `createQueue(options)`
+
+#  `createQueueManager()`
 
 
