@@ -15,8 +15,8 @@ npm install @arpinum/promising --save
 
 * [`compose` operation](docs/api.md#composefunctions)
 * [`delay` operation](docs/api.md#delaymilliseconds)
-* [`map` operation](docs/api.md#mapvalues-func-options)
-* [`mapSeries` operation](docs/api.md#mapseriesvalues-func-options)
+* [`map` operation](docs/api.md#mapfunc-values)
+* [`mapSeries` operation](docs/api.md#mapseriesfunc-values)
 * [`mapWithOptions` operation](docs/api.md#mapwithoptionsfunc-options-values)
 * [`promisify` operation](docs/api.md#promisifyfunc)
 * [`wrap` operation](docs/api.md#wrapfunc)
