@@ -65,7 +65,7 @@ const square = x => Promise.resolve(x * x);
 map(square, [1, 2, 3]).then(console.log); // [ 1, 4, 9 ]
 ```
 
-# `mapSeries()`
+# `mapSeries(func, values)`
 
 Same as `mapWithOptions` but with `concurrency` option set to `1` to run only one promise at a time.
 
