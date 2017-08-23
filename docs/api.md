@@ -42,16 +42,14 @@ const {delay} = require('@arpinum/promising');
 delay(2000).then(() => console.log('tick'));
 ```
 
-# `map(values, func, options)`
+# `map(func, values)`
 
 Creates a promise that is resolved after having applied an async function to values.
 
 #### Arguments
 
-* `values: any[]`: values to map
 * `func: function`: mapping function which may return a promise
-* `options?: object`:
-  * `concurrency?: number` number of promises to run concurrently. default is `3.
+* `values: any[]`: values to map
 
 #### Return
 
@@ -64,12 +62,41 @@ const {map} = require('@arpinum/promising');
 
 const square = x => Promise.resolve(x * x);
 
-map([1, 2, 3], square).then(console.log); // [ 1, 4, 9 ]
+map(square, [1, 2, 3]).then(console.log); // [ 1, 4, 9 ]
 ```
 
 # `mapSeries()`
 
-Same as `map` but with `concurrency` option set to `1` to run only one promise at a time.
+Same as `mapWithOptions` but with `concurrency` option set to `1` to run only one promise at a time.
+
+#### Example
+
+```javascript
+const {mapSeries} = require('@arpinum/promising');
+
+const square = x => Promise.resolve(x * x);
+
+mapSeries(square, [1, 2, 3]).then(console.log); // [ 1, 4, 9 ]
+```
+
+# `mapWithOptions(func, options, values)`
+
+Same as `map` but with some options.
+
+#### Specific argument
+
+* `options: object`:
+  * `concurrency?: number` number of promises to run concurrently. default is `3.
+
+#### Example
+
+```javascript
+const {mapWithOptions} = require('@arpinum/promising');
+
+const square = x => Promise.resolve(x * x);
+
+mapWithOptions(square, {concurrency: 2}, [1, 2, 3]).then(console.log); // [ 1, 4, 9 ]
+```
 
 # `promisify(func)`
 
