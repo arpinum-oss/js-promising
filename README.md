@@ -21,7 +21,6 @@ npm install @arpinum/promising --save
 * [`promisify` operation](docs/api.md#promisifyfunc)
 * [`wrap` operation](docs/api.md#wrapfunc)
 * [queue object](docs/api.md#createqueueoptions)
-* [queue manager object](docs/api.md#createqueuemanager)
 
 ## Docs
 

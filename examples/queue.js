@@ -1,49 +1,14 @@
 'use strict';
 
-const {delay, createQueueManager} = require('../lib');
+const {createQueue} = require('../lib');
 
-if (require.main === module) {
-  example();
+const queue = createQueue({capacity: 3});
+
+queue.enqueue(() => eventuallyLog('1'));
+queue.enqueue(() => eventuallyLog('2'));
+queue.enqueue(() => eventuallyLog('3'));
+
+function eventuallyLog(message) {
+  return new Promise(resolve => setTimeout(resolve, 1000))
+    .then(() => console.log(message));
 }
-
-function example() {
-  const queue = createQueueManager().queue('1', {capacity: 3});
-
-  const min = 50;
-  const max = 700;
-
-  queue.enqueue(() => eventuallyLog('1'));
-
-  delay(1000).then(() => {
-    queue.enqueue(() => eventuallyLog('2'));
-    queue.enqueue(() => eventuallyLog('3'));
-    queue.enqueue(() => eventuallyLogThenFail('4'));
-  });
-
-  delay(1300).then(() => {
-    queue.enqueue(() => eventuallyLog('5'));
-  });
-
-  delay(1800).then(() => {
-    queue.enqueue(() => eventuallyLog('6'));
-    queue.enqueue(() => eventuallyLog('7'));
-    queue.enqueue(() => eventuallyLogThenFail('8'));
-    queue.enqueue(() => eventuallyLog('9'));
-    queue.enqueue(() => eventuallyLog('10'));
-  });
-
-  function eventuallyLogThenFail(message) {
-    return eventuallyLog(message)
-      .then(() => Promise.reject('bleh'));
-  }
-
-  function eventuallyLog(message) {
-    return delay(random(min, max))
-      .then(() => console.log(message));
-  }
-
-  function random(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-}
-
