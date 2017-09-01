@@ -1,4 +1,4 @@
-# @arpinum/promising [![Build Status](https://travis-ci.org/arpinum-js-engine/js-promising.svg?branch=master)](https://travis-ci.org/arpinum-js-engine/js-promising)
+# @arpinum/promising [![Build Status](https://travis-ci.org/arpinum-oss/js-promising.svg?branch=master)](https://travis-ci.org/arpinum-oss/js-promising)
 
 > A promise made is a debt unpaid.
 > <cite>Robert W. Service</cite>
