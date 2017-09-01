@@ -15,7 +15,7 @@
   },
   "author": "Arpinum",
   "license": "MIT",
-  "repository": "arpinum-js-engine/js-engine-promising.git",
+  "repository": "arpinum-js-engine/js-promising.git",
   "keywords": [
     "promise",
     "async",
