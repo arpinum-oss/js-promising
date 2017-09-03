@@ -132,7 +132,7 @@ parse('[}')
   * `capacity` `number` Maximum number of function either running or queued. When capacity is reached following enqueued functions are ignored. Defaults to unlimited.
 * returns: `Queue`
 
-Creates a [Queue](#queueobject) object which can enqueue functions returning a promise and dequeue them sequentially.
+Creates a [Queue](#queue-object) object which can enqueue functions returning a promise and dequeue them sequentially.
 
 Example:
 
