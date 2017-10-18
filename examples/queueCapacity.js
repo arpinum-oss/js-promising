@@ -2,7 +2,7 @@
 
 const {createQueue} = require('../lib');
 
-const queue = createQueue();
+const queue = createQueue({capacity: 2});
 
 queue.enqueue(() => eventuallyLog('1'));
 queue.enqueue(() => eventuallyLog('2'));
