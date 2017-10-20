@@ -130,6 +130,9 @@ parse('[}')
 
 * `options` `Object`
   * `capacity` `number` Maximum number of function either running or queued. When capacity is reached following enqueued functions are ignored. Defaults to unlimited.
+  * `concurrency` `number` Number of promises to run concurrently. Defaults to 1.
+  * `onRunningUpdated` `function` Callback function called when running function count is updated. Count is passed as argument. Does nothing by default.
+  * `onCountUpdated` `function` Callback function called when function count is updated. Count is passed as argument. Does nothing by default.
 * returns: `Queue`
 
 Creates a [Queue](#queue-object) object which can enqueue functions returning a promise and dequeue them sequentially.
