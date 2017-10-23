@@ -2,4 +2,5 @@
 
 const {delay} = require('../lib');
 
-delay(2000).then(() => console.log('tick'));
+delay(2000, console.log)('tic')
+  .then(() => console.log('tac'));
