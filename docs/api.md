@@ -17,19 +17,20 @@ const addSquare = compose([add, square]);
 addSquare(1, 2).then(console.log); // 9
 ```
 
-# delay(milliseconds)
+# delay(milliseconds, func)
 
-* `milliseconds` `number` Delay before resolution
-* returns: `Promise<void>`
+* `milliseconds` `number` Delay before calling function
+* `func` `function` Function to be delayed
+* returns: `function` Function returning a promise
 
-Creates a promise that is resolved after given milliseconds.
+Creates a function that delays a given function forwarding any arguments.
 
 Example:
 
 ```javascript
 const {delay} = require('@arpinum/promising');
 
-delay(2000).then(() => console.log('tick'));
+delay(2000, console.log)('I am late');
 ```
 
 # map(func, values)
