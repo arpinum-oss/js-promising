@@ -2,10 +2,10 @@
 
 const {timeout} = require('../lib');
 
-timeout(300, slowFunction)()
-  .then(() => console.log('Should have failed'))
+timeout(300, resolveAfter)(5000)
+  .then(() => console.log('Will not be called'))
   .catch(console.error);
 
-function slowFunction() {
-  return new Promise(resolve => setTimeout(resolve, 5000));
+function resolveAfter(delay) {
+  return new Promise(resolve => setTimeout(resolve, delay));
 }

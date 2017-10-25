@@ -104,12 +104,35 @@ readdir(__dirname)
   .catch(console.error);
 ```
 
-# wrap(func)
+# timeout(milliseconds, func)
 
-Wraps a function either returning an immediate value or a promise into another function returning only a promise.
+* `milliseconds` `number` Delay before expiration
+* `func` `function` Function to be prevented from timeout. Must return a promise. 
+* returns: `function` Function returning a promise
+
+Creates a function that decorate another function forwarding any arguments. The resulting function returns a promise rejected if decorated function takes too much time. 
+
+Example:
+
+```javascript
+const {timeout} = require('../lib');
+
+timeout(300, resolveAfter)(5000)
+  .then(() => console.log('Will not be called'))
+  .catch(console.error);
+
+function resolveAfter(delay) {
+  return new Promise(resolve => setTimeout(resolve, delay));
+}
+```
+
+
+# wrap(func)
 
 * `func` `function` Function to wrap into another one
 * returns: `function` Function returning a promise containing the result either synchronous or promised
+
+Wraps a function either returning an immediate value or a promise into another function returning only a promise.
 
 If any error happens in synchronous code, the promise is rejected.
 
