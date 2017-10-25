@@ -110,7 +110,7 @@ readdir(__dirname)
 * `func` `function` Function to be prevented from timeout. Must return a promise. 
 * returns: `function` Function returning a promise
 
-Creates a function that decorate another function forwarding any arguments. The resulting function returns a promise rejected if decorated function takes too much time. 
+Creates a function that decorates another one forwarding any arguments. The resulting function returns a promise rejected if decorated function takes too much time. 
 
 Example:
 
