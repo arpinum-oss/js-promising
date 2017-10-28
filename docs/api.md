@@ -126,7 +126,6 @@ function resolveAfter(delay) {
 }
 ```
 
-
 # wrap(func)
 
 * `func` `function` Function to wrap into another one

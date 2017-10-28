@@ -3,7 +3,9 @@
 > A promise made is a debt unpaid.
 > <cite>Robert W. Service</cite>
 
-*@arpinum/promising* is a simple module that provides basic operations on promises
+*@arpinum/promising* is a simple module that provides basic operations on promises.
+
+This module is functional programming friendly, thus many functions have fixed arities to support auto-currying and data-last arguments.
 
 ## Installation
 
@@ -21,6 +23,7 @@ npm install @arpinum/promising --save
 * [`promisify` operation](docs/api.md#promisifyfunc)
 * [`timeout` operation](docs/api.md#timeoutmilliseconds-func)
 * [`wrap` operation](docs/api.md#wrapfunc)
+* [auto-currying](docs/auto-currying.md)
 * [queue object](docs/api.md#createqueueoptions)
 
 ## Docs

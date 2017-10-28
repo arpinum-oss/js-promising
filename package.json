@@ -20,7 +20,9 @@
     "promise",
     "async",
     "map",
-    "queue"
+    "queue",
+    "auto-curried",
+    "functional"
   ],
   "devDependencies": {
     "chai": "4.1.0",
