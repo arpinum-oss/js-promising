@@ -1,6 +1,6 @@
 'use strict';
 
-const {createQueue} = require('../lib');
+const { createQueue } = require('../lib');
 
 const count = 100000;
 

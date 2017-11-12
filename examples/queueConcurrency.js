@@ -1,6 +1,6 @@
 'use strict';
 
-const {createQueue} = require('../lib');
+const { createQueue } = require('../lib');
 
 const queue = createQueue({
   concurrency: 3,
@@ -23,6 +23,7 @@ setTimeout(() => {
 }, 300);
 
 function eventuallyLog(message, delay) {
-  return new Promise(resolve => setTimeout(resolve, delay))
-    .then(() => console.log(message));
+  return new Promise(resolve => setTimeout(resolve, delay)).then(() =>
+    console.log(message)
+  );
 }

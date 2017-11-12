@@ -1,6 +1,6 @@
 'use strict';
 
-const {mapSeries} = require('../lib');
+const { mapSeries } = require('../lib');
 
 const square = x => Promise.resolve(x * x);
 
