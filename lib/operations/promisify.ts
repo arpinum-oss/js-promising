@@ -1,9 +1,9 @@
-'use strict';
+import { AnyFunction } from '../types';
 
-function promisify(func) {
-  return function(...args) {
+export function promisify(func: AnyFunction) {
+  return (...args: any[]) => {
     return new Promise((resolve, reject) => {
-      func(...args, (error, result) => {
+      func(...args, (error: Error, result: any) => {
         if (error) {
           reject(error);
         } else {
@@ -13,5 +13,3 @@ function promisify(func) {
     });
   };
 }
-
-module.exports = promisify;

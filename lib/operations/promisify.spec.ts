@@ -1,9 +1,7 @@
-'use strict';
-
-const promisify = require('./promisify');
+import { promisify } from './promisify';
 
 describe('Promisify', () => {
-  context('creates a function that', () => {
+  describe('creates a function that', () => {
     it('should resolve the value in callback', () => {
       const func = callback => {
         setTimeout(() => {
@@ -14,7 +12,7 @@ describe('Promisify', () => {
       const promisified = promisify(func);
 
       return promisified().then(result => {
-        result.should.equal('hello');
+        expect(result).toEqual('hello');
       });
     });
 
@@ -29,7 +27,7 @@ describe('Promisify', () => {
 
       return promisified().then(
         () => Promise.reject(new Error('Should fail')),
-        rejection => rejection.message.should.equal('bleh')
+        rejection => expect(rejection.message).toEqual('bleh')
       );
     });
   });
@@ -44,7 +42,7 @@ describe('Promisify', () => {
     const promisified = promisify(func);
 
     return promisified('hello', 'world').then(args => {
-      args.should.deep.equal(['hello', 'world']);
+      expect(args).toEqual(['hello', 'world']);
     });
   });
 });

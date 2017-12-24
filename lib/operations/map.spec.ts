@@ -1,14 +1,12 @@
-'use strict';
-
-const wrap = require('./wrap');
-const map = require('./map');
+import { map } from './map';
+import { wrap } from './wrap';
 
 describe('Map', () => {
   it('should resolve when all applied promises are resolved', () => {
     const globalPromise = map(x => Promise.resolve(x), null, [1, 2, 3]);
 
     return globalPromise.then(result => {
-      result.should.deep.equal([1, 2, 3]);
+      expect(result).toEqual([1, 2, 3]);
     });
   });
 
@@ -16,7 +14,7 @@ describe('Map', () => {
     const globalPromise = map(x => Promise.resolve(x), null, []);
 
     return globalPromise.then(result => {
-      result.should.deep.equal([]);
+      expect(result).toEqual([]);
     });
   });
 
@@ -24,7 +22,7 @@ describe('Map', () => {
     const globalPromise = map(decreasingDelay, null, [1, 2, 3]);
 
     return globalPromise.then(result => {
-      result.should.deep.equal([1, 2, 3]);
+      expect(result).toEqual([1, 2, 3]);
     });
 
     function decreasingDelay(x) {
@@ -37,7 +35,7 @@ describe('Map', () => {
 
     return globalPromise.then(
       () => Promise.reject(new Error('Should fail')),
-      rejection => rejection.message.should.equal('bleh')
+      rejection => expect(rejection.message).toEqual('bleh')
     );
 
     function rejectFor2(x) {
@@ -54,7 +52,7 @@ describe('Map', () => {
 
     return globalPromise.then(
       () => Promise.reject(new Error('Should fail')),
-      rejection => rejection.message.should.equal('bleh2')
+      rejection => expect(rejection.message).toEqual('bleh2')
     );
 
     function rejectForGreaterThan2(x) {
@@ -71,12 +69,12 @@ describe('Map', () => {
         maxConcurrentRuns = Math.max(concurrentRuns, maxConcurrentRuns);
       })().then(() => concurrentRuns--);
 
-    const functions = new Array(50).fill().map(() => func);
+    const functions = new Array(50).fill(func).map(f => f);
 
     const globalPromise = map(f => f(), { concurrency: 4 }, functions);
 
     return globalPromise.then(() => {
-      maxConcurrentRuns.should.equal(4);
+      expect(maxConcurrentRuns).toEqual(4);
     });
   });
 
@@ -86,7 +84,7 @@ describe('Map', () => {
     ]);
 
     return globalPromise.then(result => {
-      result.should.deep.equal([1]);
+      expect(result).toEqual([1]);
     });
   });
 });

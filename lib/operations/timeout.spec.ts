@@ -1,18 +1,16 @@
-'use strict';
-
-const timeout = require('./timeout');
+import { timeout } from './timeout';
 
 describe('Timeout', () => {
-  context('creates a function that', () => {
+  describe('creates a function that', () => {
     it('should reject when function takes to much time', () => {
       const slowFunction = () => new Promise(() => undefined);
       const withTimeout = timeout(10, slowFunction);
 
-      const result = withTimeout();
+      const promise = withTimeout();
 
-      return result.then(
+      return promise.then(
         () => Promise.reject(new Error('Should fail')),
-        rejection => rejection.message.should.equal('Timeout expired (10ms)')
+        rejection => expect(rejection.message).toEqual('Timeout expired (10ms)')
       );
     });
 
@@ -21,10 +19,10 @@ describe('Timeout', () => {
         new Promise(resolve => setTimeout(() => resolve('ok'), 10));
       const withTimeout = timeout(100, quickFunction);
 
-      const result = withTimeout();
+      const promise = withTimeout();
 
-      return result.then(result => {
-        result.should.equal('ok');
+      return promise.then(result => {
+        expect(result).toEqual('ok');
       });
     });
 
@@ -35,11 +33,11 @@ describe('Timeout', () => {
         );
       const withTimeout = timeout(100, failingFunction);
 
-      const result = withTimeout();
+      const promise = withTimeout();
 
-      return result.then(
+      return promise.then(
         () => Promise.reject(new Error('Should fail')),
-        rejection => rejection.message.should.equal('Failure sorry')
+        rejection => expect(rejection.message).toEqual('Failure sorry')
       );
     });
   });
@@ -49,10 +47,10 @@ describe('Timeout', () => {
       new Promise(resolve => setTimeout(() => resolve([...args]), 10));
     const withTimeout = timeout(100, func);
 
-    const result = withTimeout('hello', 'world');
+    const promise = withTimeout('hello', 'world');
 
-    return result.then(args => {
-      args.should.deep.equal(['hello', 'world']);
+    return promise.then(args => {
+      expect(args).toEqual(['hello', 'world']);
     });
   });
 });

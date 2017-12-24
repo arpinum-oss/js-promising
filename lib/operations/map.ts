@@ -1,8 +1,14 @@
-'use strict';
+import { wrap } from './wrap';
 
-const wrap = require('./wrap');
+export interface MapOptions {
+  concurrency: number;
+}
 
-function map(func, options, values) {
+export function map<T1, T2>(
+  func: (v: T1) => T2 | Promise<T2>,
+  options: MapOptions,
+  values: T1[]
+): Promise<T2[]> {
   const opts = Object.assign({}, { concurrency: 3 }, options);
   if (values.length === 0) {
     return Promise.resolve([]);
@@ -11,7 +17,7 @@ function map(func, options, values) {
     const results = new Array(values.length);
     let index = 0;
     let doneCount = 0;
-    let firstRejection;
+    let firstRejection: Error;
     for (let i = 0; i < opts.concurrency; i++) {
       runNext();
     }
@@ -24,13 +30,13 @@ function map(func, options, values) {
             handleDone(null, result, resultIndex);
           })
           .catch(error => {
-            handleDone(error);
+            handleDone(error, null, null);
           });
         index++;
       }
     }
 
-    function handleDone(error, result, resultIndex) {
+    function handleDone(error: Error, result: T2, resultIndex: number) {
       doneCount++;
       if (error) {
         firstRejection = firstRejection || error;
@@ -49,5 +55,3 @@ function map(func, options, values) {
     }
   });
 }
-
-module.exports = map;

@@ -1,19 +1,28 @@
 'use strict';
 
-const { map, mapSeries } = require('../lib');
+const { map, mapSeries, mapWithOptions } = require('../build');
 
 const count = 100000;
 
-benchmark(() => map(createPromiseFuncs(), f => f()), 'Map (concurrency: 3)')
-  .then(() =>
-    benchmark(
-      () => map(createPromiseFuncs(), f => f(), { concurrency: 1 }),
-      'Map (concurrency: 1)'
-    )
-  )
-  .then(() =>
-    benchmark(() => mapSeries(createPromiseFuncs(), f => f()), 'Map series')
+run();
+// Map (concurrency: 3): 100000 promises handled in 384 ms
+// Map (concurrency: 1): 100000 promises handled in 378 ms
+// Map series: 100000 promises handled in 339 ms
+
+async function run() {
+  await benchmark(
+    () => map(f => f(), createPromiseFuncs()),
+    'Map (concurrency: 3)'
   );
+  await benchmark(
+    () => mapWithOptions(f => f(), { concurrency: 1 }, createPromiseFuncs()),
+    'Map (concurrency: 1)'
+  );
+  await benchmark(
+    () => mapSeries(f => f(), createPromiseFuncs()),
+    'Map series'
+  );
+}
 
 function benchmark(func, context) {
   const start = new Date();

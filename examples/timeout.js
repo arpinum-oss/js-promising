@@ -1,6 +1,6 @@
 'use strict';
 
-const { timeout } = require('../lib');
+const { timeout } = require('../build');
 
 timeout(300, resolveAfter)(5000)
   .then(() => console.log('Will not be called'))

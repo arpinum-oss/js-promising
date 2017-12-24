@@ -1,6 +1,18 @@
-'use strict';
+import { AnyFunction } from '../types';
 
-function createQueue(options) {
+export interface QueueOptions {
+  capacity?: number;
+  concurrency?: number;
+  onRunningUpdated?: (count: number) => void;
+  onCountUpdated?: (count: number) => void;
+}
+
+interface QueueItem {
+  next?: QueueItem;
+  resolve: () => void;
+}
+
+export function createQueue(options?: QueueOptions) {
   const {
     capacity,
     concurrency,
@@ -16,14 +28,14 @@ function createQueue(options) {
     },
     options
   );
-  let head = null;
-  let tail = null;
+  let head: QueueItem = null;
+  let tail: QueueItem = null;
   let count = 0;
   let running = 0;
 
   return { enqueue };
 
-  function enqueue(action) {
+  function enqueue(action: AnyFunction) {
     if (capacityReached()) {
       return Promise.resolve();
     }
@@ -46,17 +58,9 @@ function createQueue(options) {
       return count >= capacity;
     }
 
-    function createDeferred() {
-      let resolve;
-      const promise = new Promise(r => {
-        resolve = r;
-      });
-      return { promise, resolve };
-    }
-
-    function add() {
+    function add(newResolve: () => void) {
       if (head) {
-        tail.next = { resolve };
+        tail.next = { resolve: newResolve };
         tail = tail.next;
       } else {
         head = { resolve };
@@ -87,16 +91,22 @@ function createQueue(options) {
       }
     }
 
-    function updateCount(value) {
+    function updateCount(value: number) {
       count = value;
       onCountUpdated(count);
     }
 
-    function updateRunning(value) {
+    function updateRunning(value: number) {
       running = value;
       onRunningUpdated(running);
     }
   }
-}
 
-module.exports = createQueue;
+  function createDeferred() {
+    let resolve;
+    const promise = new Promise(r => {
+      resolve = r;
+    });
+    return { promise, resolve };
+  }
+}

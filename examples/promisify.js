@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs');
-const { promisify } = require('../lib');
+const { promisify } = require('../build');
 
 const readdir = promisify(fs.readdir);
 

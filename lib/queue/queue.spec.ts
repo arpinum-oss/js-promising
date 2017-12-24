@@ -1,7 +1,5 @@
-'use strict';
-
-const { delay, wrap } = require('../operations');
-const createQueue = require('./queue');
+import { delay, wrap } from '../operations';
+import { createQueue } from './queue';
 
 describe('A queue', () => {
   let queue;
@@ -14,7 +12,7 @@ describe('A queue', () => {
     const action = () => Promise.resolve('run');
 
     return queue.enqueue(action).then(result => {
-      result.should.equal('run');
+      expect(result).toEqual('run');
     });
   });
 
@@ -28,46 +26,46 @@ describe('A queue', () => {
     ];
 
     return Promise.all(promises).then(() => {
-      runs.should.deep.equal(['1', '2', '3']);
+      expect(runs).toEqual(['1', '2', '3']);
     });
   });
 
   it('should accept another action though previous one has failed', () => {
     const runs = [];
-    const queue = createQueue({ capacity: 2 });
+    const myQueue = createQueue({ capacity: 2 });
 
     const promises = [
-      queue
+      myQueue
         .enqueue(() => Promise.reject('failure'))
         .catch(() => runs.push('failing action')),
-      queue.enqueue(wrap(() => runs.push('second action')))
+      myQueue.enqueue(wrap(() => runs.push('second action')))
     ];
 
     return Promise.all(promises).then(() => {
-      runs.should.include('failing action');
-      runs.should.include('second action');
+      expect(runs).toContain('failing action');
+      expect(runs).toContain('second action');
     });
   });
 
   it('could be configured to run multiple actions concurrently', () => {
     const runs = [];
-    const queue = createQueue({ concurrency: 2 });
+    const myQueue = createQueue({ concurrency: 2 });
 
     const promises = [
-      queue.enqueue(delay(20, () => runs.push('1'))),
-      queue.enqueue(delay(5, () => runs.push('2'))),
-      queue.enqueue(delay(10, () => runs.push('3'))),
-      queue.enqueue(delay(8, () => runs.push('4')))
+      myQueue.enqueue(delay(20, () => runs.push('1'))),
+      myQueue.enqueue(delay(5, () => runs.push('2'))),
+      myQueue.enqueue(delay(10, () => runs.push('3'))),
+      myQueue.enqueue(delay(8, () => runs.push('4')))
     ];
 
     return Promise.all(promises).then(() => {
-      runs.should.deep.equal(['2', '3', '1', '4']);
+      expect(runs).toEqual(['2', '3', '1', '4']);
     });
   });
 
   it('could be configured to run callback when running count is updated', () => {
     const updates = [];
-    const queue = createQueue({
+    const myQueue = createQueue({
       concurrency: 2,
       onRunningUpdated: value => {
         updates.push(value);
@@ -75,32 +73,32 @@ describe('A queue', () => {
     });
 
     const promises = [
-      queue.enqueue(delay(0, () => undefined)),
-      queue.enqueue(delay(50, () => undefined)),
-      queue.enqueue(delay(100, () => undefined))
+      myQueue.enqueue(delay(0, () => undefined)),
+      myQueue.enqueue(delay(50, () => undefined)),
+      myQueue.enqueue(delay(100, () => undefined))
     ];
 
     return Promise.all(promises).then(() => {
-      updates.should.deep.equal([1, 2, 1, 2, 1, 0]);
+      expect(updates).toEqual([1, 2, 1, 2, 1, 0]);
     });
   });
 
   it('could be configured to run callback when count is updated', () => {
     const updates = [];
-    const queue = createQueue({
+    const myQueue = createQueue({
       onCountUpdated: value => {
         updates.push(value);
       }
     });
 
     const promises = [
-      queue.enqueue(delay(0, () => undefined)),
-      queue.enqueue(delay(50, () => undefined)),
-      queue.enqueue(delay(100, () => undefined))
+      myQueue.enqueue(delay(0, () => undefined)),
+      myQueue.enqueue(delay(50, () => undefined)),
+      myQueue.enqueue(delay(100, () => undefined))
     ];
 
     return Promise.all(promises).then(() => {
-      updates.should.deep.equal([1, 2, 3, 2, 1, 0]);
+      expect(updates).toEqual([1, 2, 3, 2, 1, 0]);
     });
   });
 });

@@ -1,32 +1,30 @@
-'use strict';
-
-const delay = require('./delay');
+import { delay } from './delay';
 
 describe('Delay', () => {
   it('should resolve after the given ms', () => {
-    return delay(1);
+    return delay(1, () => undefined)();
   });
 
   it('should passe all arguments to the created function', () => {
     const func = (...args) => args;
     const withDelay = delay(10, func);
 
-    const result = withDelay('hello', 'world');
+    const promise = withDelay('hello', 'world');
 
-    return result.then(args => {
-      args.should.deep.equal(['hello', 'world']);
+    return promise.then(args => {
+      expect(args).toEqual(['hello', 'world']);
     });
   });
 
-  context('creates a function that', () => {
+  describe('creates a function that', () => {
     it('should resolve after the delay', () => {
       const func = () => 'ok';
       const withDelay = delay(10, func);
 
-      const result = withDelay();
+      const promise = withDelay();
 
-      return result.then(result => {
-        result.should.equal('ok');
+      return promise.then(result => {
+        expect(result).toEqual('ok');
       });
     });
   });

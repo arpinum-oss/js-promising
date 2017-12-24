@@ -1,6 +1,6 @@
 'use strict';
 
-const { createQueue } = require('../lib');
+const { createQueue } = require('../build');
 
 const queue = createQueue({ capacity: 2 });
 

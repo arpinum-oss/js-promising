@@ -1,6 +1,6 @@
 'use strict';
 
-const { compose } = require('../lib');
+const { compose } = require('../build');
 
 const count = 100000;
 
@@ -8,6 +8,7 @@ const funcs = createFunctions();
 
 const start = new Date();
 compose(funcs)(0).then(printStatistics);
+// 100000 functions handled in 267 ms
 
 function createFunctions() {
   const result = [];

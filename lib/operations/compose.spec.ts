@@ -1,7 +1,5 @@
-'use strict';
-
-const delay = require('./delay');
-const compose = require('./compose');
+import { compose } from './compose';
+import { delay } from './delay';
 
 describe('Compose', () => {
   it('should create a promise function of all functions', () => {
@@ -14,7 +12,7 @@ describe('Compose', () => {
     const globalPromise = compose(functions)();
 
     return globalPromise.then(() => {
-      runs.should.deep.equal(['1', '2']);
+      expect(runs).toEqual(['1', '2']);
     });
   });
 
@@ -28,7 +26,7 @@ describe('Compose', () => {
     const globalPromise = compose(functions)();
 
     return globalPromise.then(() => {
-      runs.should.deep.equal(['1', '2']);
+      expect(runs).toEqual(['1', '2']);
     });
   });
 
@@ -42,7 +40,7 @@ describe('Compose', () => {
     const globalPromise = compose(functions)(['initial']);
 
     return globalPromise.then(result => {
-      result.should.deep.equal(['initial', '1', '2', '3']);
+      expect(result).toEqual(['initial', '1', '2', '3']);
     });
   });
 
@@ -56,7 +54,7 @@ describe('Compose', () => {
     const globalPromise = compose(functions)(['initial']);
 
     return globalPromise.then(result => {
-      result.should.deep.equal(['initial', '1', '2', '3']);
+      expect(result).toEqual(['initial', '1', '2', '3']);
     });
   });
 
@@ -71,7 +69,7 @@ describe('Compose', () => {
 
     return globalPromise.then(
       () => Promise.reject(new Error('Should fail')),
-      rejection => rejection.message.should.equal('bleh')
+      rejection => expect(rejection.message).toEqual('bleh')
     );
   });
 
@@ -81,7 +79,7 @@ describe('Compose', () => {
     const addSquare = compose([add, square]);
 
     return addSquare(1, 2).then(result => {
-      result.should.equal(9);
+      expect(result).toEqual(9);
     });
   });
 });

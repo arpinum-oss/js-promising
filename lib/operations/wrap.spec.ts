@@ -1,16 +1,14 @@
-'use strict';
-
-const wrap = require('./wrap');
+import { wrap } from './wrap';
 
 describe('Wrap', () => {
-  context('creates a function that', () => {
+  describe('creates a function that', () => {
     it('should resolve the immediate value', () => {
       const func = () => 'hello';
 
       const promise = wrap(func)();
 
       return promise.then(result => {
-        result.should.equal('hello');
+        expect(result).toEqual('hello');
       });
     });
 
@@ -23,7 +21,7 @@ describe('Wrap', () => {
 
       return promise.then(
         () => Promise.reject(new Error('Should fail')),
-        rejection => rejection.message.should.equal('bleh')
+        rejection => expect(rejection.message).toEqual('bleh')
       );
     });
 
@@ -34,7 +32,7 @@ describe('Wrap', () => {
       const promise = wrap(func)();
 
       return promise.then(result => {
-        result.should.equal('hello');
+        expect(result).toEqual('hello');
       });
     });
 
@@ -48,7 +46,7 @@ describe('Wrap', () => {
 
       return promise.then(
         () => Promise.reject(new Error('Should fail')),
-        rejection => rejection.message.should.equal('bleh')
+        rejection => expect(rejection.message).toEqual('bleh')
       );
     });
   });
@@ -59,7 +57,7 @@ describe('Wrap', () => {
     const promise = wrap(func)(1, 2, 3);
 
     return promise.then(result => {
-      result.should.deep.equal([1, 2, 3]);
+      expect(result).toEqual([1, 2, 3]);
     });
   });
 });

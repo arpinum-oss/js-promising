@@ -1,6 +1,6 @@
-'use strict';
+import { PromiseFunction, PromiseMaybeFunction } from '../types';
 
-function wrap(func) {
+export function wrap<T>(func: PromiseMaybeFunction<T>): PromiseFunction<T> {
   return (...args) => {
     return new Promise((resolve, reject) => {
       try {
@@ -12,5 +12,3 @@ function wrap(func) {
     });
   };
 }
-
-module.exports = wrap;

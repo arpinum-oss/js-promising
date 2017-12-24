@@ -1,6 +1,6 @@
 'use strict';
 
-const { wrap } = require('../lib');
+const { wrap } = require('../build');
 
 const parse = wrap(JSON.parse);
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const { mapWithOptions } = require('../lib');
+const { mapWithOptions } = require('../build');
 
 const square = x => Promise.resolve(x * x);
 
