@@ -4,6 +4,7 @@
   "jsRules": {},
   "rules": {
     "interface-name": false,
+    "member-ordering": false,
     "object-literal-sort-keys": false
   },
   "rulesDirectory": []
