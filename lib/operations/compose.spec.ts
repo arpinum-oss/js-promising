@@ -16,6 +16,16 @@ describe('Compose', () => {
     });
   });
 
+  it('could handle no function', () => {
+    const functions = [];
+
+    const globalPromise = compose(functions)('hello');
+
+    return globalPromise.then(result => {
+      expect(result).toEqual('hello');
+    });
+  });
+
   it('could handle only one function', () => {
     const runs = [];
     const functions = [delay(1, () => runs.push('1'))];

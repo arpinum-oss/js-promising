@@ -2,6 +2,9 @@ import { AnyFunction, PromiseFunction } from '../types';
 import { wrap } from './wrap';
 
 export function compose(functions: AnyFunction[] = []): PromiseFunction<any> {
+  if (functions.length === 0) {
+    return x => Promise.resolve(x);
+  }
   if (functions.length === 1) {
     return wrap(functions[0]);
   }
