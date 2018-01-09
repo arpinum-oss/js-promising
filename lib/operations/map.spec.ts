@@ -10,6 +10,14 @@ describe('Map', () => {
     });
   });
 
+  it('could handle only 1 element', () => {
+    const globalPromise = map(x => Promise.resolve(x), null, [1]);
+
+    return globalPromise.then(result => {
+      expect(result).toEqual([1]);
+    });
+  });
+
   it('should resolve immediatly when no values', () => {
     const globalPromise = map(x => Promise.resolve(x), null, []);
 

@@ -13,6 +13,9 @@ export function map<T1, T2>(
   if (values.length === 0) {
     return Promise.resolve([]);
   }
+  if (values.length === 1) {
+    return wrap(func)(values[0]).then(r => [r]);
+  }
   return new Promise((resolve, reject) => {
     const results = new Array(values.length);
     let index = 0;

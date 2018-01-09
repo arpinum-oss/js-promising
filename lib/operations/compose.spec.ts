@@ -16,6 +16,17 @@ describe('Compose', () => {
     });
   });
 
+  it('could handle only one function', () => {
+    const runs = [];
+    const functions = [delay(1, () => runs.push('1'))];
+
+    const globalPromise = compose(functions)();
+
+    return globalPromise.then(() => {
+      expect(runs).toEqual(['1']);
+    });
+  });
+
   it('should preserve order', () => {
     const runs = [];
     const functions = [
