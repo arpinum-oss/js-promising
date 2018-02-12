@@ -20,8 +20,8 @@ describe('A queue', () => {
     const runs = [];
 
     const promises = [
-      queue.enqueue(delay(10, () => runs.push('1'))),
-      queue.enqueue(delay(5, () => runs.push('2'))),
+      queue.enqueue(delay(30, () => runs.push('1'))),
+      queue.enqueue(delay(20, () => runs.push('2'))),
       queue.enqueue(delay(0, () => runs.push('3')))
     ];
 
@@ -52,10 +52,10 @@ describe('A queue', () => {
     const myQueue = createQueue({ concurrency: 2 });
 
     const promises = [
-      myQueue.enqueue(delay(20, () => runs.push('1'))),
-      myQueue.enqueue(delay(5, () => runs.push('2'))),
-      myQueue.enqueue(delay(10, () => runs.push('3'))),
-      myQueue.enqueue(delay(8, () => runs.push('4')))
+      myQueue.enqueue(delay(30, () => runs.push('1'))),
+      myQueue.enqueue(delay(10, () => runs.push('2'))),
+      myQueue.enqueue(delay(15, () => runs.push('3'))),
+      myQueue.enqueue(delay(20, () => runs.push('4')))
     ];
 
     return Promise.all(promises).then(() => {
