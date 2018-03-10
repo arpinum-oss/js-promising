@@ -4,14 +4,12 @@
   "description": "A simple module that provides basic operations on promises",
   "main": "build/index.js",
   "types": "build/index.d.ts",
-  "files": [
-    "build"
-  ],
+  "files": ["build"],
   "scripts": {
     "tslint": "tslint --fix 'lib/**/*.ts'",
     "jest": "jest",
     "testw": "jest --watch",
-    "prettier": "prettier --write '**/*.ts'",
+    "prettier": "prettier --write '**/*.{js,json,md,ts}'",
     "compile": "tsc --noEmit",
     "test": "run-s -c compile jest tslint",
     "prebuild": "rm -rf ./build",
@@ -49,10 +47,6 @@
     },
     "mapCoverage": true,
     "testRegex": "/lib/.*\\.spec\\.ts$",
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ]
+    "moduleFileExtensions": ["js", "json", "ts"]
   }
 }

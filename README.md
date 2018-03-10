@@ -3,7 +3,7 @@
 > A promise made is a debt unpaid.
 > <cite>Robert W. Service</cite>
 
-*@arpinum/promising* is a simple module that provides basic operations on promises.
+_@arpinum/promising_ is a simple module that provides basic operations on promises.
 
 This module is functional programming friendly, thus many functions have fixed arities to support auto-currying and data-last arguments.
 

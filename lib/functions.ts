@@ -10,4 +10,3 @@ export function autoCurry<T extends AnyFunction>(func: T): T {
     return (...args: any[]) => withGatheredArgs(...gatheredArgs, ...args);
   }
 }
-

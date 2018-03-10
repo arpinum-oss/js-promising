@@ -8,7 +8,7 @@ Creates a function that returns a promise of the result of invoking the given fu
 Example:
 
 ```javascript
-const {compose} = require('@arpinum/promising');
+const { compose } = require('@arpinum/promising');
 
 const add = (x, y) => Promise.resolve(x + y);
 const square = x => Promise.resolve(x * x);
@@ -28,7 +28,7 @@ Creates a function that delays a given function forwarding any arguments.
 Example:
 
 ```javascript
-const {delay} = require('@arpinum/promising');
+const { delay } = require('@arpinum/promising');
 
 delay(2000, console.log)('I am late');
 ```
@@ -44,7 +44,7 @@ Creates a promise that is resolved after having applied an async function to val
 Example:
 
 ```javascript
-const {map} = require('@arpinum/promising');
+const { map } = require('@arpinum/promising');
 
 const square = x => Promise.resolve(x * x);
 
@@ -58,7 +58,7 @@ Same as `mapWithOptions` but with `concurrency` option set to 1 to run only one 
 Example:
 
 ```javascript
-const {mapSeries} = require('@arpinum/promising');
+const { mapSeries } = require('@arpinum/promising');
 
 const square = x => Promise.resolve(x * x);
 
@@ -75,11 +75,11 @@ Same as `map` but with some options.
 Example:
 
 ```javascript
-const {mapWithOptions} = require('@arpinum/promising');
+const { mapWithOptions } = require('@arpinum/promising');
 
 const square = x => Promise.resolve(x * x);
 
-mapWithOptions(square, {concurrency: 2}, [1, 2, 3]).then(console.log); // [ 1, 4, 9 ]
+mapWithOptions(square, { concurrency: 2 }, [1, 2, 3]).then(console.log); // [ 1, 4, 9 ]
 ```
 
 # promisify(func)
@@ -89,13 +89,13 @@ Promisifies a function using an Error-first Node.js style callback.
 * `func` `function` Function using Node.js like convention
 * returns: `function` Function returning a promise
 
-The function is either rejected with an error if 1st callback parameter is not null, or resolved with the result provided as 2nd parameter to the callback.  
+The function is either rejected with an error if 1st callback parameter is not null, or resolved with the result provided as 2nd parameter to the callback.
 
 Example:
 
 ```javascript
 const fs = require('fs');
-const {promisify} = require('@arpinum/promising');
+const { promisify } = require('@arpinum/promising');
 
 const readdir = promisify(fs.readdir);
 
@@ -107,15 +107,15 @@ readdir(__dirname)
 # timeout(milliseconds, func)
 
 * `milliseconds` `number` Delay before expiration
-* `func` `function` Function to be prevented from timeout. Must return a promise. 
+* `func` `function` Function to be prevented from timeout. Must return a promise.
 * returns: `function` Function returning a promise
 
-Creates a function that decorates another one forwarding any arguments. The resulting function returns a promise rejected if decorated function takes too much time. 
+Creates a function that decorates another one forwarding any arguments. The resulting function returns a promise rejected if decorated function takes too much time.
 
 Example:
 
 ```javascript
-const {timeout} = require('../lib');
+const { timeout } = require('../lib');
 
 timeout(300, resolveAfter)(5000)
   .then(() => console.log('Will not be called'))
@@ -138,15 +138,13 @@ If any error happens in synchronous code, the promise is rejected.
 Example:
 
 ```javascript
-const {wrap} = require('@arpinum/promising');
+const { wrap } = require('@arpinum/promising');
 
 const parse = wrap(JSON.parse);
 
-parse('{"message": "ok"}')
-  .then(o => console.log(o.message)); // ok
+parse('{"message": "ok"}').then(o => console.log(o.message)); // ok
 
-parse('[}')
-  .catch(e => console.error(e.message)); // Unexpected token...
+parse('[}').catch(e => console.error(e.message)); // Unexpected token...
 ```
 
 # createQueue(options)
@@ -163,17 +161,18 @@ Creates a [Queue](#queue-object) object which can enqueue functions returning a 
 Example:
 
 ```javascript
-const {createQueue} = require('@arpinum/promising');
+const { createQueue } = require('@arpinum/promising');
 
-const queue = createQueue({capacity: 3});
+const queue = createQueue({ capacity: 3 });
 
 queue.enqueue(() => eventuallyLog('1'));
 queue.enqueue(() => eventuallyLog('2'));
 queue.enqueue(() => eventuallyLog('3'));
 
 function eventuallyLog(message) {
-  return new Promise(resolve => setTimeout(resolve, 1000))
-    .then(() => console.log(message));
+  return new Promise(resolve => setTimeout(resolve, 1000)).then(() =>
+    console.log(message)
+  );
 }
 ```
 
@@ -182,4 +181,4 @@ function eventuallyLog(message) {
 ## queue.enqueue(func)
 
 * `func` `function` Function to exectute that may return a promise or an immediate value
-* returns: `Promise` Promise resolved when enqueued function has been dequeued 
+* returns: `Promise` Promise resolved when enqueued function has been dequeued
