@@ -9,7 +9,7 @@ This module is functional programming friendly, thus many functions have fixed a
 
 ## Installation
 
-```bash
+```
 npm install @arpinum/promising --save
 ```
 
