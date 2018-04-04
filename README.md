@@ -1,6 +1,6 @@
 # @arpinum/promising [![Build Status](https://travis-ci.org/arpinum-oss/js-promising.svg?branch=master)](https://travis-ci.org/arpinum-oss/js-promising)
 
-> A promise made is a debt unpaid.
+> A promise made is a debt unpaid.  
 > <cite>Robert W. Service</cite>
 
 _@arpinum/promising_ is a simple module that provides basic operations on promises.
