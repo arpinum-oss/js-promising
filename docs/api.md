@@ -1,6 +1,6 @@
 # compose(functions)
 
-* `functions` `Array<function>` Functions to invoke
+* `functions` `function[]` Functions to invoke
 * returns: `function` Function returning a promise of the result
 
 Creates a function that returns a promise of the result of invoking the given functions, where each successive async invocation is supplied the return value of the previous.
@@ -36,7 +36,7 @@ delay(2000, console.log)('I am late');
 # map(func, values)
 
 * `func` `function` Mapping function which may return a promise
-* `values` `Array<any>` Values to map
+* `values` `any[]` Values to map
 * returns: `Promise` Promise either resolved with an array of all function results if all promises are resolved or rejected with the first error
 
 Creates a promise that is resolved after having applied an async function to values.
