@@ -1,7 +1,7 @@
 # compose(functions)
 
-* `functions` `function[]` Functions to invoke
-* returns: `function` Function returning a promise of the result
+* `functions: Array<function>` - Functions to invoke.
+* returns: `function` - Function returning a promise of the result.
 
 Creates a function that returns a promise of the result of invoking the given functions, where each successive async invocation is supplied the return value of the previous.
 
@@ -19,9 +19,9 @@ addSquare(1, 2).then(console.log); // 9
 
 # delay(milliseconds, func)
 
-* `milliseconds` `number` Delay before calling function
-* `func` `function` Function to be delayed
-* returns: `function` Function returning a promise
+* `milliseconds: number` - Delay before calling function.
+* `func: function` - Function to be delayed.
+* returns: `function` - Function returning a promise.
 
 Creates a function that delays a given function forwarding any arguments.
 
@@ -35,9 +35,9 @@ delay(2000, console.log)('I am late');
 
 # map(func, values)
 
-* `func` `function` Mapping function which may return a promise
-* `values` `any[]` Values to map
-* returns: `Promise` Promise either resolved with an array of all function results if all promises are resolved or rejected with the first error
+* `func: function` - Mapping function which may return a promise.
+* `values: Array<any>` - Values to map.
+* returns: `Promise<Array<any>>` - Promise either resolved with an array of all function results if all promises are resolved or rejected with the first error.
 
 Creates a promise that is resolved after having applied an async function to values.
 
@@ -67,8 +67,8 @@ mapSeries(square, [1, 2, 3]).then(console.log); // [ 1, 4, 9 ]
 
 # mapWithOptions(func, options, values)
 
-* `options` `Object`
-  * `concurrency` `number` Number of promises to run concurrently. Defaults to 3.
+* `options: Object`
+  * `concurrency: number` - Number of promises to run concurrently. Defaults to 3.
 
 Same as `map` but with some options.
 
@@ -86,8 +86,8 @@ mapWithOptions(square, { concurrency: 2 }, [1, 2, 3]).then(console.log); // [ 1,
 
 Promisifies a function using an Error-first Node.js style callback.
 
-* `func` `function` Function using Node.js like convention
-* returns: `function` Function returning a promise
+* `func: function` - Function using Node.js like convention.
+* returns: `function` - Function returning a promise.
 
 The function is either rejected with an error if 1st callback parameter is not null, or resolved with the result provided as 2nd parameter to the callback.
 
@@ -106,9 +106,9 @@ readdir(__dirname)
 
 # timeout(milliseconds, func)
 
-* `milliseconds` `number` Delay before expiration
-* `func` `function` Function to be prevented from timeout. Must return a promise.
-* returns: `function` Function returning a promise
+* `milliseconds: number` - Delay before expiration.
+* `func: function` - Function to be prevented from timeout. Must return a promise.
+* returns: `function` - Function returning a promise.
 
 Creates a function that decorates another one forwarding any arguments. The resulting function returns a promise rejected if decorated function takes too much time.
 
@@ -128,8 +128,8 @@ function resolveAfter(delay) {
 
 # wrap(func)
 
-* `func` `function` Function to wrap into another one
-* returns: `function` Function returning a promise containing the result either synchronous or promised
+* `func: function` - Function to wrap into another one.
+* returns: `function` - Function returning a promise containing the result either synchronous or promised.
 
 Wraps a function either returning an immediate value or a promise into another function returning only a promise.
 
@@ -149,11 +149,11 @@ parse('[}').catch(e => console.error(e.message)); // Unexpected token...
 
 # createQueue(options)
 
-* `options` `Object`
-  * `capacity` `number` Maximum number of function either running or queued. When capacity is reached following enqueued functions are ignored. Defaults to unlimited.
-  * `concurrency` `number` Number of promises to run concurrently. Defaults to 1.
-  * `onRunningUpdated` `function` Callback function called when running function count is updated. Count is passed as argument. Does nothing by default.
-  * `onCountUpdated` `function` Callback function called when function count is updated. Count is passed as argument. Does nothing by default.
+* `options: Object`
+  * `capacity: number` - Maximum number of function either running or queued. When capacity is reached following enqueued functions are ignored. Defaults to unlimited.
+  * `concurrency: number` - Number of promises to run concurrently. Defaults to 1.
+  * `onRunningUpdated: function` - Callback function called when running function count is updated. Count is passed as argument. Does nothing by default.
+  * `onCountUpdated: function` - Callback function called when function count is updated. Count is passed as argument. Does nothing by default.
 * returns: `Queue`
 
 Creates a [Queue](#queue-object) object which can enqueue functions returning a promise and dequeue them sequentially.
@@ -180,5 +180,5 @@ function eventuallyLog(message) {
 
 ## queue.enqueue(func)
 
-* `func` `function` Function to exectute that may return a promise or an immediate value
-* returns: `Promise` Promise resolved when enqueued function has been dequeued
+* `func: function` - Function to exectute that may return a promise or an immediate value.
+* returns: `Promise<any>` - Promise resolved when enqueued function has been dequeued.
