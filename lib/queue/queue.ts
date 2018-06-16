@@ -7,12 +7,18 @@ export interface QueueOptions {
   onCountUpdated?: (count: number) => void;
 }
 
+type Resolve = () => void;
+
 interface QueueItem {
-  next?: QueueItem;
-  resolve: () => void;
+  next: QueueItem | null;
+  resolve: Resolve;
 }
 
-export function createQueue(options?: QueueOptions) {
+export interface Queue {
+  enqueue: (action: AnyFunction) => Promise<any>
+}
+
+export function createQueue(options?: QueueOptions): Queue {
   const {
     capacity,
     concurrency,
@@ -28,8 +34,8 @@ export function createQueue(options?: QueueOptions) {
     },
     options
   );
-  let head: QueueItem = null;
-  let tail: QueueItem = null;
+  let head: QueueItem | null = null;
+  let tail: QueueItem | null = null;
   let count = 0;
   let running = 0;
 
@@ -59,11 +65,11 @@ export function createQueue(options?: QueueOptions) {
     }
 
     function add(newResolve: () => void) {
-      if (head) {
-        tail.next = { resolve: newResolve };
-        tail = tail.next;
+      if (head !== null) {
+        (tail as QueueItem).next = { resolve: newResolve, next: null };
+        tail = (tail as QueueItem).next;
       } else {
-        head = { resolve };
+        head = { resolve, next: null };
         tail = head;
       }
       updateCount(count + 1);
@@ -82,10 +88,10 @@ export function createQueue(options?: QueueOptions) {
     }
 
     function dequeue() {
-      if (head) {
+      if (head !== null) {
         updateRunning(running + 1);
         head.resolve();
-        head = head.next;
+        head = (head as QueueItem).next;
       } else {
         tail = null;
       }
@@ -103,7 +109,7 @@ export function createQueue(options?: QueueOptions) {
   }
 
   function createDeferred() {
-    let resolve;
+    let resolve: Resolve = () => undefined;
     const promise = new Promise(r => {
       resolve = r;
     });

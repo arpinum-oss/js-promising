@@ -52,15 +52,15 @@ describe('Functions module', () => {
     return 1;
   }
 
-  function inc(n) {
+  function inc(n: number) {
     return n + 1;
   }
 
-  function add2(a, b) {
+  function add2(a: number, b: number) {
     return a + b;
   }
 
-  function add3(a, b, c) {
+  function add3(a: number, b: number, c: number) {
     return a + b + c;
   }
 });

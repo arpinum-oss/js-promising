@@ -1,10 +1,12 @@
 import { wrap } from './wrap';
 
+interface Options {
+  concurrency: number;
+}
+
 export function map<T1, T2>(
   func: (v: T1) => T2 | Promise<T2>,
-  options: {
-    concurrency: number;
-  },
+  options: Options | null,
   values: T1[]
 ): Promise<T2[]> {
   const opts = Object.assign({}, { concurrency: 3 }, options);
@@ -28,22 +30,27 @@ export function map<T1, T2>(
         const resultIndex = index;
         wrap(func)(values[index])
           .then(result => {
-            handleDone(null, result, resultIndex);
+            handleSuccess(result, resultIndex);
           })
           .catch(error => {
-            handleDone(error, null, null);
+            handleError(error);
           });
         index++;
       }
     }
 
-    function handleDone(error: Error, result: T2, resultIndex: number) {
+    function handleSuccess(result: T2, resultIndex: number) {
+      results[resultIndex] = result;
+      handleDone();
+    }
+
+    function handleError(error: Error) {
+      firstRejection = firstRejection || error;
+      handleDone();
+    }
+
+    function handleDone() {
       doneCount++;
-      if (error) {
-        firstRejection = firstRejection || error;
-      } else {
-        results[resultIndex] = result;
-      }
       if (doneCount === values.length) {
         if (firstRejection) {
           reject(firstRejection);

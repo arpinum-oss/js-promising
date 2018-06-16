@@ -1,9 +1,10 @@
+import { AnyFunction } from '../types';
 import { compose } from './compose';
 import { delay } from './delay';
 
 describe('Compose', () => {
   it('should create a promise function of all functions', () => {
-    const runs = [];
+    const runs: string[] = [];
     const functions = [
       delay(1, () => runs.push('1')),
       delay(2, () => runs.push('2'))
@@ -17,7 +18,7 @@ describe('Compose', () => {
   });
 
   it('could handle no function', () => {
-    const functions = [];
+    const functions: AnyFunction[] = [];
 
     const globalPromise = compose(functions)('hello');
 
@@ -27,7 +28,7 @@ describe('Compose', () => {
   });
 
   it('could handle only one function', () => {
-    const runs = [];
+    const runs: string[] = [];
     const functions = [delay(1, () => runs.push('1'))];
 
     const globalPromise = compose(functions)();
@@ -38,7 +39,7 @@ describe('Compose', () => {
   });
 
   it('should preserve order', () => {
-    const runs = [];
+    const runs: string[] = [];
     const functions = [
       delay(10, () => runs.push('1')),
       delay(1, () => runs.push('2'))
@@ -66,7 +67,7 @@ describe('Compose', () => {
   });
 
   it('should handle sync and async functions', () => {
-    const functions = [
+    const functions: Array<(f: string[]) => void> = [
       result => [...result, '1'],
       result => [...result, '2'],
       delay(1, result => [...result, '3'])
@@ -80,7 +81,7 @@ describe('Compose', () => {
   });
 
   it('should handle rejections', () => {
-    const functions = [
+    const functions: Array<(f: string[]) => void> = [
       result => [...result, '1'],
       () => Promise.reject(new Error('bleh')),
       result => [...result, '3']
@@ -95,8 +96,8 @@ describe('Compose', () => {
   });
 
   it('should first function to have any number of arguments', () => {
-    const add = (x, y) => Promise.resolve(x + y);
-    const square = x => Promise.resolve(x * x);
+    const add = (x: number, y: number) => Promise.resolve(x + y);
+    const square = (x: number) => Promise.resolve(x * x);
     const addSquare = compose([add, square]);
 
     return addSquare(1, 2).then(result => {

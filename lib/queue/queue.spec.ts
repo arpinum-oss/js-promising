@@ -1,8 +1,8 @@
 import { delay, wrap } from '../operations';
-import { createQueue } from './queue';
+import { createQueue, Queue } from './queue';
 
 describe('A queue', () => {
-  let queue;
+  let queue: Queue;
 
   beforeEach(() => {
     queue = createQueue();
@@ -17,7 +17,7 @@ describe('A queue', () => {
   });
 
   it('should run queued actions sequentially', () => {
-    const runs = [];
+    const runs: string[] = [];
 
     const promises = [
       queue.enqueue(delay(30, () => runs.push('1'))),
@@ -31,7 +31,7 @@ describe('A queue', () => {
   });
 
   it('should accept another action though previous one has failed', () => {
-    const runs = [];
+    const runs: string[] = [];
     const myQueue = createQueue({ capacity: 2 });
 
     const promises = [
@@ -48,7 +48,7 @@ describe('A queue', () => {
   });
 
   it('could be configured to run multiple actions concurrently', () => {
-    const runs = [];
+    const runs: string[] = [];
     const myQueue = createQueue({ concurrency: 2 });
 
     const promises = [
@@ -64,7 +64,7 @@ describe('A queue', () => {
   });
 
   it('could be configured to run callback when running count is updated', () => {
-    const updates = [];
+    const updates: number[] = [];
     const myQueue = createQueue({
       concurrency: 2,
       onRunningUpdated: value => {
@@ -84,7 +84,7 @@ describe('A queue', () => {
   });
 
   it('could be configured to run callback when count is updated', () => {
-    const updates = [];
+    const updates: number[] = [];
     const myQueue = createQueue({
       onCountUpdated: value => {
         updates.push(value);

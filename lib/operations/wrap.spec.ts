@@ -38,7 +38,7 @@ describe('Wrap', () => {
 
     it('should reject a rejection', () => {
       const func = () =>
-        new Promise((resolve, reject) =>
+        new Promise((_, reject) =>
           setTimeout(() => reject(new Error('bleh')))
         );
 
@@ -52,7 +52,7 @@ describe('Wrap', () => {
   });
 
   it('should pass all arguments to the created function', () => {
-    const func = (...args) => args;
+    const func = (...args: number[]) => args;
 
     const promise = wrap(func)(1, 2, 3);
 

@@ -33,7 +33,7 @@ describe('Map', () => {
       expect(result).toEqual([1, 2, 3]);
     });
 
-    function decreasingDelay(x) {
+    function decreasingDelay(x: number) {
       return new Promise(resolve => setTimeout(() => resolve(x), 30 / x));
     }
   });
@@ -43,11 +43,11 @@ describe('Map', () => {
 
     return globalPromise.then(
       () => Promise.reject(new Error('Should fail')),
-      rejection => expect(rejection.message).toEqual('bleh')
+      (rejection: Error) => expect(rejection.message).toEqual('bleh')
     );
 
-    function rejectFor2(x) {
-      return x === 2 ? Promise.reject(new Error('bleh')) : undefined;
+    function rejectFor2(x: number) {
+      return x === 2 ? Promise.reject(new Error('bleh')) : Promise.resolve();
     }
   });
 
@@ -60,11 +60,11 @@ describe('Map', () => {
 
     return globalPromise.then(
       () => Promise.reject(new Error('Should fail')),
-      rejection => expect(rejection.message).toEqual('bleh2')
+      (rejection: Error) => expect(rejection.message).toEqual('bleh2')
     );
 
-    function rejectForGreaterThan2(x) {
-      return x >= 2 ? Promise.reject(new Error(`bleh${x}`)) : undefined;
+    function rejectForGreaterThan2(x: number) {
+      return x >= 2 ? Promise.reject(new Error(`bleh${x}`)) : Promise.resolve();
     }
   });
 

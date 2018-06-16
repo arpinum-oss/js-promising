@@ -28,7 +28,7 @@ describe('Timeout', () => {
 
     it('should forward promise rejection', () => {
       const failingFunction = () =>
-        new Promise((resolve, reject) =>
+        new Promise((_, reject) =>
           setTimeout(() => reject(new Error('Failure sorry')), 10)
         );
       const withTimeout = timeout(100, failingFunction);
@@ -43,7 +43,7 @@ describe('Timeout', () => {
   });
 
   it('should pass all arguments to the created function', () => {
-    const func = (...args) =>
+    const func = (...args: string[]) =>
       new Promise(resolve => setTimeout(() => resolve([...args]), 10));
     const withTimeout = timeout(100, func);
 

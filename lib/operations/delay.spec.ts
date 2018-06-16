@@ -6,7 +6,7 @@ describe('Delay', () => {
   });
 
   it('should passe all arguments to the created function', () => {
-    const func = (...args) => args;
+    const func = (...args: string[]) => args;
     const withDelay = delay(10, func);
 
     const promise = withDelay('hello', 'world');

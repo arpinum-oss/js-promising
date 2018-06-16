@@ -1,6 +1,6 @@
 import { AnyFunction } from './types';
 
-export function autoCurry<T extends AnyFunction>(func: T): T {
+export function autoCurry<T extends AnyFunction>(func: T): AnyFunction {
   return withGatheredArgs as T;
 
   function withGatheredArgs(...gatheredArgs: any[]): any {
