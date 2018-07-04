@@ -38,9 +38,7 @@ describe('Wrap', () => {
 
     it('should reject a rejection', () => {
       const func = () =>
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('bleh')))
-        );
+        new Promise((_, reject) => setTimeout(() => reject(new Error('bleh'))));
 
       const promise = wrap(func)();
 

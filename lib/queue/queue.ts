@@ -15,7 +15,7 @@ interface QueueItem {
 }
 
 export interface Queue {
-  enqueue: (action: AnyFunction) => Promise<any>
+  enqueue: (action: AnyFunction) => Promise<any>;
 }
 
 export function createQueue(options?: QueueOptions): Queue {
