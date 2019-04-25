@@ -27,7 +27,7 @@ describe('Wrap', () => {
 
     it('should resolve a resolved value', () => {
       const func = () =>
-        new Promise(resolve => setTimeout(() => resolve('hello')));
+        new Promise(resolve => setTimeout(() => resolve('hello'), 1));
 
       const promise = wrap(func)();
 
@@ -38,7 +38,9 @@ describe('Wrap', () => {
 
     it('should reject a rejection', () => {
       const func = () =>
-        new Promise((_, reject) => setTimeout(() => reject(new Error('bleh'))));
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('bleh')), 1)
+        );
 
       const promise = wrap(func)();
 

@@ -1,8 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "noEmit": true,
-    "types": ["jest"]
-  },
-  "exclude": ["node_modules", "**/*.spec.js"]
-}

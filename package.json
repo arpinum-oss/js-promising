@@ -12,10 +12,10 @@
     "jest": "jest --verbose",
     "testw": "jest --watch",
     "prettier": "prettier --write '**/*.{js,json,md,ts}'",
-    "compile": "tsc -p tsconfig.test.json",
+    "compile": "tsc",
     "test": "run-s -c compile jest tslint",
     "prebuild": "rm -rf ./build",
-    "build": "tsc",
+    "build": "tsc -p ./tsconfig.prod.json",
     "preversion": "run-s test build",
     "postversion": "git push && git push --tags && npm publish"
   },
@@ -32,6 +32,7 @@
   ],
   "devDependencies": {
     "@types/jest": "24.0.11",
+    "@types/node": "11.13.7",
     "jest": "24.7.1",
     "npm-run-all": "4.1.5",
     "prettier": "1.17.0",

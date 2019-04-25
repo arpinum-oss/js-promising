@@ -6,7 +6,7 @@ describe('Promisify', () => {
       const func = (callback: ErrorFirstCallback) => {
         setTimeout(() => {
           callback(null, 'hello');
-        });
+        }, 1);
       };
 
       const promisified = promisify(func);
@@ -20,7 +20,7 @@ describe('Promisify', () => {
       const func = (callback: ErrorFirstCallback) => {
         setTimeout(() => {
           callback(new Error('bleh'));
-        });
+        }, 1);
       };
 
       const promisified = promisify(func);
@@ -36,7 +36,7 @@ describe('Promisify', () => {
     const func = (arg1: string, arg2: string, callback: ErrorFirstCallback) => {
       setTimeout(() => {
         callback(null, [arg1, arg2]);
-      });
+      }, 1);
     };
 
     const promisified = promisify(func);
