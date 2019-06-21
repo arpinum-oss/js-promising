@@ -3,7 +3,7 @@ import { wrap } from './wrap';
 
 describe('Map', () => {
   it('should resolve when all applied promises are resolved', () => {
-    const globalPromise = map(x => Promise.resolve(x), null, [1, 2, 3]);
+    const globalPromise = map(x => Promise.resolve(x), {}, [1, 2, 3]);
 
     return globalPromise.then(result => {
       expect(result).toEqual([1, 2, 3]);
@@ -11,7 +11,7 @@ describe('Map', () => {
   });
 
   it('could handle only 1 element', () => {
-    const globalPromise = map(x => Promise.resolve(x), null, [1]);
+    const globalPromise = map(x => Promise.resolve(x), {}, [1]);
 
     return globalPromise.then(result => {
       expect(result).toEqual([1]);
@@ -19,7 +19,7 @@ describe('Map', () => {
   });
 
   it('should resolve immediatly when no values', () => {
-    const globalPromise = map(x => Promise.resolve(x), null, []);
+    const globalPromise = map(x => Promise.resolve(x), {}, []);
 
     return globalPromise.then(result => {
       expect(result).toEqual([]);
@@ -27,7 +27,7 @@ describe('Map', () => {
   });
 
   it('should return results in same order than values', () => {
-    const globalPromise = map(decreasingDelay, null, [1, 2, 3]);
+    const globalPromise = map(decreasingDelay, {}, [1, 2, 3]);
 
     return globalPromise.then(result => {
       expect(result).toEqual([1, 2, 3]);

@@ -68,7 +68,7 @@ mapSeries(square, [1, 2, 3]).then(console.log); // [ 1, 4, 9 ]
 # mapWithOptions(func, options, values)
 
 - `options: Object`
-  - `concurrency: number` - Number of promises to run concurrently. Defaults to 3.
+  - `concurrency?: number` - Number of promises to run concurrently. Defaults to 3.
 
 Same as `map` but with some options.
 
@@ -115,11 +115,36 @@ Creates a function that decorates another one forwarding any arguments. The resu
 Example:
 
 ```javascript
-const { timeout } = require('../lib');
+const { timeout } = require('@arpinum/promising');
 
 timeout(300, resolveAfter)(5000)
   .then(() => console.log('Will not be called'))
   .catch(console.error);
+
+function resolveAfter(delay) {
+  return new Promise(resolve => setTimeout(resolve, delay));
+}
+```
+
+# timeoutWithOptions(milliseconds, options, func)
+
+- `options: Object`
+  - `createError?: function` - Factory function used to create the thrown error. Delay is provided when called.
+
+Same as `timeout` but with some options.
+
+Example:
+
+```javascript
+const { timeoutWithOptions } = require('@arpinum/promising');
+
+timeoutWithOptions(300, { createError }, resolveAfter)(5000)
+  .then(() => console.log('Will not be called'))
+  .catch(console.error);
+
+function createError(delay) {
+  return new Error(`Too slow (>${delay}ms)`);
+}
 
 function resolveAfter(delay) {
   return new Promise(resolve => setTimeout(resolve, delay));

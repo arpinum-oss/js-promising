@@ -22,6 +22,7 @@ npm install @arpinum/promising --save
 - [`mapWithOptions` operation](docs/api.md#mapwithoptionsfunc-options-values)
 - [`promisify` operation](docs/api.md#promisifyfunc)
 - [`timeout` operation](docs/api.md#timeoutmilliseconds-func)
+- [`timeoutWithOptions` operation](docs/api.md#timeoutwithoptionsmilliseconds-options-func)
 - [`wrap` operation](docs/api.md#wrapfunc)
 - [auto-currying](docs/auto-currying.md)
 - [queue object](docs/api.md#createqueueoptions)

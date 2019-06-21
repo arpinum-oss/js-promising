@@ -4,7 +4,7 @@ describe('Timeout', () => {
   describe('creates a function that', () => {
     it('should reject when function takes to much time', () => {
       const slowFunction = () => new Promise(() => undefined);
-      const withTimeout = timeout(10, slowFunction);
+      const withTimeout = timeout(10, {}, slowFunction);
 
       const promise = withTimeout();
 
@@ -14,10 +14,26 @@ describe('Timeout', () => {
       );
     });
 
+    it('should reject with provided error factory', () => {
+      const slowFunction = () => new Promise(() => undefined);
+      const withTimeout = timeout(
+        10,
+        { createError: d => new Error(`> ${d}ms`) },
+        slowFunction
+      );
+
+      const promise = withTimeout();
+
+      return promise.then(
+        () => Promise.reject(new Error('Should fail')),
+        rejection => expect(rejection.message).toEqual('> 10ms')
+      );
+    });
+
     it('should resolve when function is quick enough', () => {
       const quickFunction = () =>
         new Promise(resolve => setTimeout(() => resolve('ok'), 10));
-      const withTimeout = timeout(100, quickFunction);
+      const withTimeout = timeout(100, {}, quickFunction);
 
       const promise = withTimeout();
 
@@ -31,7 +47,7 @@ describe('Timeout', () => {
         new Promise((_, reject) =>
           setTimeout(() => reject(new Error('Failure sorry')), 10)
         );
-      const withTimeout = timeout(100, failingFunction);
+      const withTimeout = timeout(100, {}, failingFunction);
 
       const promise = withTimeout();
 
@@ -45,7 +61,7 @@ describe('Timeout', () => {
   it('should pass all arguments to the created function', () => {
     const func = (...args: string[]) =>
       new Promise(resolve => setTimeout(() => resolve([...args]), 10));
-    const withTimeout = timeout(100, func);
+    const withTimeout = timeout(100, {}, func);
 
     const promise = withTimeout('hello', 'world');
 

@@ -1,12 +1,12 @@
 import { wrap } from './wrap';
 
 interface Options {
-  concurrency: number;
+  concurrency?: number;
 }
 
 export function map<T1, T2>(
   func: (v: T1) => T2 | Promise<T2>,
-  options: Options | null,
+  options: Options,
   values: T1[]
 ): Promise<T2[]> {
   const opts = Object.assign({}, { concurrency: 3 }, options);
