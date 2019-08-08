@@ -1,5 +1,5 @@
 // tslint:disable: no-console
-import { wrap } from '../build';
+import { wrap } from '../lib';
 
 const parse = wrap(JSON.parse);
 
