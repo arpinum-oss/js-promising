@@ -1,6 +1,6 @@
 {
   "name": "@arpinum/promising",
-  "version": "2.2.3",
+  "version": "2.3.0",
   "description": "A simple module that provides basic operations on promises",
   "main": "build/index.js",
   "types": "build/index.d.ts",
