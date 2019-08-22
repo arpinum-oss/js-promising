@@ -1,10 +1,11 @@
+import { autoCurry } from '../functions';
 import { AnyFunction, PromiseFunction } from '../types';
 
 interface Options {
   createError?: (delay: number) => Error;
 }
 
-export function timeout(
+function rawTimeoutWithOptions(
   delay: number,
   options: Options,
   func: AnyFunction
@@ -30,4 +31,32 @@ export function timeout(
 
 function createError(delay: number) {
   return new Error(`Timeout expired (${delay}ms)`);
+}
+
+const curriedTimeoutWithOptions = autoCurry(rawTimeoutWithOptions);
+
+export function timeoutWithOptions(
+  delay: number,
+  options: Options,
+  func: AnyFunction
+): PromiseFunction<any>;
+export function timeoutWithOptions(
+  delay: number
+): (options: Options) => (func: AnyFunction) => PromiseFunction<any>;
+export function timeoutWithOptions(...args: []) {
+  return curriedTimeoutWithOptions(...args);
+}
+
+function rawTimeout(delay: number, func: AnyFunction): PromiseFunction<any> {
+  return rawTimeoutWithOptions(delay, {}, func);
+}
+
+const curriedTimeout = autoCurry(rawTimeout);
+
+export function timeout(delay: number, func: AnyFunction): PromiseFunction<any>;
+export function timeout(
+  delay: number
+): (func: AnyFunction) => PromiseFunction<any>;
+export function timeout(...args: []) {
+  return curriedTimeout(...args);
 }

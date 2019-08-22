@@ -1,10 +1,11 @@
+import { autoCurry } from '../functions';
 import { wrap } from './wrap';
 
 interface Options {
   concurrency?: number;
 }
 
-export function map<T1, T2>(
+function rawMapWithOptions<T1, T2>(
   func: (v: T1) => T2 | Promise<T2>,
   options: Options,
   values: T1[]
@@ -62,4 +63,58 @@ export function map<T1, T2>(
       }
     }
   });
+}
+
+const curriedMapWithOptions = autoCurry(rawMapWithOptions);
+
+export function mapWithOptions<T1, T2>(
+  func: (v: T1) => T2 | Promise<T2>,
+  options: Options,
+  values: T1[]
+): Promise<T2[]>;
+export function mapWithOptions<T1, T2>(
+  func: (v: T1) => T2 | Promise<T2>
+): (options: Options) => (values: T1[]) => Promise<T2[]>;
+export function mapWithOptions(...args: any[]) {
+  return curriedMapWithOptions(...args);
+}
+
+function rawMap<T1, T2>(
+  func: (v: T1) => T2 | Promise<T2>,
+  values: T1[]
+): Promise<T2[]> {
+  return rawMapWithOptions(func, {}, values);
+}
+
+const curriedMap = autoCurry(rawMap);
+
+export function map<T1, T2>(
+  func: (v: T1) => T2 | Promise<T2>,
+  values: T1[]
+): Promise<T2[]>;
+export function map<T1, T2>(
+  func: (v: T1) => T2 | Promise<T2>
+): (values: T1[]) => Promise<T2[]>;
+export function map(...args: any[]) {
+  return curriedMap(...args);
+}
+
+function rawMapSeries<T1, T2>(
+  func: (v: T1) => T2 | Promise<T2>,
+  values: T1[]
+): Promise<T2[]> {
+  return rawMapWithOptions(func, { concurrency: 1 }, values);
+}
+
+const curriedMapSeries = autoCurry(rawMapSeries);
+
+export function mapSeries<T1, T2>(
+  func: (v: T1) => T2 | Promise<T2>,
+  values: T1[]
+): Promise<T2[]>;
+export function mapSeries<T1, T2>(
+  func: (v: T1) => T2 | Promise<T2>
+): (values: T1[]) => Promise<T2[]>;
+export function mapSeries(...args: any[]) {
+  return curriedMapSeries(...args);
 }

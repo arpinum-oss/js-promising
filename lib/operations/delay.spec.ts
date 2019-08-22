@@ -2,7 +2,11 @@ import { delay } from './delay';
 
 describe('Delay', () => {
   it('should resolve after the given ms', () => {
-    return delay(1, () => undefined)();
+    return delay(1, noop)();
+  });
+
+  it('is auto curried', () => {
+    return delay(1)(noop)();
   });
 
   it('should passe all arguments to the created function', () => {
@@ -28,4 +32,8 @@ describe('Delay', () => {
       });
     });
   });
+
+  function noop() {
+    return undefined;
+  }
 });
