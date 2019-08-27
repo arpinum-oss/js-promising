@@ -1,10 +1,18 @@
-import { retryWithOptions } from './retry';
+import { retry, retryWithOptions } from './retry';
 
 describe('Retry with options', () => {
   it('should call function and return result if everything is ok', async () => {
     const func = () => Promise.resolve('ok');
 
     const result = await retryWithOptions({}, func)();
+
+    expect(result).toEqual('ok');
+  });
+
+  it('is auto curried', async () => {
+    const func = () => Promise.resolve('ok');
+
+    const result = await retryWithOptions({})(func)();
 
     expect(result).toEqual('ok');
   });
@@ -116,5 +124,41 @@ describe('Retry with options', () => {
     const result = await retryWithOptions({ retryCount: 10 }, func)('ok');
 
     expect(result).toEqual('ok');
+  });
+});
+
+describe('Retry', () => {
+  it('should call function and return result if everything is ok', async () => {
+    const func = () => Promise.resolve('ok');
+
+    const result = await retry(3, func)();
+
+    expect(result).toEqual('ok');
+  });
+
+  it('is auto curried', async () => {
+    const func = () => Promise.resolve('ok');
+
+    const result = await retry(3)(func)();
+
+    expect(result).toEqual('ok');
+  });
+
+  it('should retry the provided times and return last error if no success', () => {
+    let calls = 0;
+    const func = () => {
+      calls++;
+      return Promise.reject(new Error('oh no :('));
+    };
+
+    const retrying = retry(2, func)();
+
+    return retrying.then(
+      () => Promise.reject(new Error('should have failed')),
+      (error: Error) => {
+        expect(error).toEqual(new Error('oh no :('));
+        expect(calls).toEqual(3);
+      }
+    );
   });
 });

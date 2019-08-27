@@ -87,10 +87,9 @@ export function mapWithOptions(...args: any[]) {
 }
 
 function rawMap<T1, T2>(
-  func: (v: T1) => Promise<T2>,
+  func: (v: T1) => T2 | Promise<T2>,
   values: T1[]
-): Promise<T2[]>;
-function rawMap<T1, T2>(func: (v: T1) => T2, values: T1[]): Promise<T2[]> {
+): Promise<T2[]> {
   return rawMapWithOptions(func, {}, values);
 }
 
@@ -107,10 +106,6 @@ export function map(...args: any[]) {
   return curriedMap(...args);
 }
 
-function rawMapSeries<T1, T2>(
-  func: (v: T1) => T2 | Promise<T2>,
-  values: T1[]
-): Promise<T2[]>;
 function rawMapSeries<T1, T2>(
   func: (v: T1) => T2 | Promise<T2>,
   values: T1[]

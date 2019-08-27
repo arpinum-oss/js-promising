@@ -1,3 +1,4 @@
+import { autoCurry } from '../functions';
 import { AnyFunction, PromisifiedFunction } from '../types';
 import { wrap } from './wrap';
 
@@ -7,7 +8,7 @@ interface Options {
   onFinalError?: AnyFunction;
 }
 
-export function retryWithOptions<F extends AnyFunction>(
+export function rawRetryWithOptions<F extends AnyFunction>(
   options: Options,
   func: F
 ): PromisifiedFunction<F> {
@@ -17,13 +18,13 @@ export function retryWithOptions<F extends AnyFunction>(
     onFinalError = () => undefined
   } = options;
   const wrappedFunc = wrap(func);
-  return doRetryWithOptions(
+  return doRawRetryWithOptions(
     { retryCount, onTryError, onFinalError },
     wrappedFunc
   );
 }
 
-function doRetryWithOptions<F extends AnyFunction>(
+function doRawRetryWithOptions<F extends AnyFunction>(
   options: Required<Options>,
   func: F
 ): PromisifiedFunction<F> {
@@ -36,7 +37,7 @@ function doRetryWithOptions<F extends AnyFunction>(
         throw error;
       }
       onTryError(error);
-      return doRetryWithOptions(
+      return doRawRetryWithOptions(
         {
           retryCount: nextRetryCount,
           onTryError,
@@ -46,4 +47,37 @@ function doRetryWithOptions<F extends AnyFunction>(
       )(...args);
     });
   };
+}
+
+const curriedRetryWithOptions = autoCurry(rawRetryWithOptions);
+
+export function retryWithOptions<F extends AnyFunction>(
+  options: Options,
+  func: F
+): PromisifiedFunction<F>;
+export function retryWithOptions(
+  options: Options
+): <F extends AnyFunction>(func: F) => PromisifiedFunction<F>;
+export function retryWithOptions(...args: any[]) {
+  return curriedRetryWithOptions(...args);
+}
+
+function rawRetry<F extends AnyFunction>(
+  retryCount: number,
+  func: F
+): PromisifiedFunction<F> {
+  return rawRetryWithOptions({ retryCount }, func);
+}
+
+const curriedRetry = autoCurry(rawRetry);
+
+export function retry<F extends AnyFunction>(
+  retryCount: number,
+  func: F
+): PromisifiedFunction<F>;
+export function retry(
+  retryCount: number
+): <F extends AnyFunction>(func: F) => PromisifiedFunction<F>;
+export function retry(...args: any[]) {
+  return curriedRetry(...args);
 }
