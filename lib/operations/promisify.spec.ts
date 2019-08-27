@@ -3,7 +3,7 @@ import { ErrorFirstCallback, promisify } from './promisify';
 describe('Promisify', () => {
   describe('creates a function that', () => {
     it('should resolve the value in callback', () => {
-      const func = (callback: ErrorFirstCallback) => {
+      const func = (callback: ErrorFirstCallback<string>) => {
         setTimeout(() => {
           callback(null, 'hello');
         }, 1);
@@ -33,7 +33,11 @@ describe('Promisify', () => {
   });
 
   it('should pass all arguments to the created function', () => {
-    const func = (arg1: string, arg2: string, callback: ErrorFirstCallback) => {
+    const func = (
+      arg1: string,
+      arg2: string,
+      callback: ErrorFirstCallback<any[]>
+    ) => {
       setTimeout(() => {
         callback(null, [arg1, arg2]);
       }, 1);
