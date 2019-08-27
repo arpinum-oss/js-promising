@@ -2,7 +2,7 @@ import { map, mapSeries, mapWithOptions } from './map';
 import { wrap } from './wrap';
 
 const options = {};
-const identity = (x: any) => Promise.resolve(x);
+const identity = <T>(x: T) => Promise.resolve(x);
 
 describe('Map with options', () => {
   it('should resolve when all applied promises are resolved', () => {

@@ -19,11 +19,11 @@ export function compose(functions: AnyFunction[] = []): PromiseFunction<any> {
           resolve(result);
         } else {
           wrap(functions[doneCount])(...runNextArgs)
-            .then(updatedResult => {
+            .then((updatedResult: any) => {
               doneCount++;
               runNext(updatedResult);
             })
-            .catch(error => {
+            .catch((error: Error) => {
               reject(error);
             });
         }

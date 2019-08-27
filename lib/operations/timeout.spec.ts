@@ -54,6 +54,17 @@ describe('Timeout with options', () => {
       });
     });
 
+    it('should resolve though function does not return a promise', () => {
+      const quickFunction = () => 'ok';
+      const withTimeout = timeoutWithOptions(100, options, quickFunction);
+
+      const promise = withTimeout();
+
+      return promise.then(result => {
+        expect(result).toEqual('ok');
+      });
+    });
+
     it('should forward promise rejection', () => {
       const failingFunction = () =>
         new Promise((_, reject) =>

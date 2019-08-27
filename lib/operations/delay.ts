@@ -1,25 +1,29 @@
 import { autoCurry } from '../functions';
-import { AnyFunction, PromiseFunction } from '../types';
+import {
+  AnyFunction,
+  PromisifiedFunction,
+  PromisifiedReturnType
+} from '../types';
 
-function rawDelay(
+function rawDelay<F extends AnyFunction>(
   milliseconds: number,
-  func: AnyFunction
-): PromiseFunction<any> {
-  return (...args: any[]) =>
+  func: F
+): PromisifiedFunction<F> {
+  return (...args: Parameters<F>) =>
     new Promise(resolve => setTimeout(resolve, milliseconds)).then(() =>
       func(...args)
-    );
+    ) as PromisifiedReturnType<F>;
 }
 
 const curriedDelay = autoCurry(rawDelay);
 
-export function delay(
+export function delay<F extends AnyFunction>(
   milliseconds: number,
-  func: AnyFunction
-): PromiseFunction<any>;
-export function delay(
+  func: F
+): PromisifiedFunction<F>;
+export function delay<F extends AnyFunction>(
   milliseconds: number
-): (func: AnyFunction) => PromiseFunction<any>;
+): (func: F) => PromisifiedFunction<F>;
 export function delay(...args: any[]) {
   return curriedDelay(...args);
 }

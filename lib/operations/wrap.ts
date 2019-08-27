@@ -1,7 +1,11 @@
-import { PromiseFunction, PromiseMaybeFunction } from '../types';
+import {
+  AnyFunction,
+  PromisifiedFunction,
+  PromisifiedReturnType
+} from '../types';
 
-export function wrap<T>(func: PromiseMaybeFunction<T>): PromiseFunction<T> {
-  return (...args) => {
+export function wrap<F extends AnyFunction>(func: F): PromisifiedFunction<F> {
+  return (...args: any[]) => {
     return new Promise((resolve, reject) => {
       try {
         const result = func(...args);
@@ -9,6 +13,6 @@ export function wrap<T>(func: PromiseMaybeFunction<T>): PromiseFunction<T> {
       } catch (error) {
         reject(error);
       }
-    });
+    }) as PromisifiedReturnType<F>;
   };
 }
