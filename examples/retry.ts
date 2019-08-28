@@ -1,16 +1,12 @@
 // tslint:disable: no-console
+import { readFile } from 'fs';
+import { promisify } from 'util';
 import { retry } from '../lib';
 
-let hasFailed = false;
+const readFileAsync = promisify(readFile);
 
-const addWithRetry = retry(5, brokenAdd);
+const readFileAsyncWithRetry = retry(2, readFileAsync);
 
-addWithRetry(1, 7).then(result => console.log(result)); // 8
-
-function brokenAdd(a: number, b: number) {
-  if (hasFailed) {
-    return Promise.resolve(a + b);
-  }
-  hasFailed = true;
-  return Promise.reject(new Error('An error occurred'));
-}
+readFileAsyncWithRetry('package.json', 'utf-8')
+  .then(console.log)
+  .catch(console.error);

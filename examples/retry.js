@@ -1,17 +1,13 @@
 'use strict';
 
+const { readFile } = require('fs');
+const { promisify } = require('util');
 const { retry } = require('../build');
 
-let hasFailed = false;
+const readFileAsync = promisify(readFile);
 
-const addWithRetry = retry(5, brokenAdd);
+const readFileAsyncWithRetry = retry(2, readFileAsync);
 
-addWithRetry(1, 7).then(result => console.log(result)); // 8
-
-function brokenAdd(a, b) {
-  if (hasFailed) {
-    return Promise.resolve(a + b);
-  }
-  hasFailed = true;
-  return Promise.reject(new Error('An error occurred'));
-}
+readFileAsyncWithRetry('package.json', 'utf-8')
+  .then(console.log)
+  .catch(console.error);

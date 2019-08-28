@@ -20,7 +20,7 @@ addSquare(1, 2).then(console.log); // 9
 # delay(milliseconds, func)
 
 - `milliseconds: number` - Delay before calling function.
-- `func: function` - Function to be delayed.
+- `func: function` - Function to be delayed. May return a promise.
 - returns: `function` - Function returning a promise.
 
 Creates a function that delays a given function forwarding any arguments.
@@ -104,10 +104,41 @@ readdir(__dirname)
   .catch(console.error);
 ```
 
+# retry(count, func)
+
+- `count: number` - The attempts to retry the function call if any error occurs.
+- `func: function` - Function likely to fail but could eventually succeed after other attempts. Should usually return a promise.
+- returns: `function` - Function returning a promise.
+
+Creates a function that decorates another one forwarding any arguments. The resulting function will be called until it succeed or there is no more attempt left.
+
+To avoid any confusion, if `count` equals `3`, `func` will be called once then 3 other times, so the total call count will be 4.
+
+Example:
+
+```javascript
+const { retry } = require('@arpinum/promising');
+```
+
+# retryWithOptions(options, func)
+
+- `options: Object`
+  - `count?: number` - The attempts to retry the function call if any error occurs. Defaults to 3.
+  - `onTryError?: function` - A function called with each error except last one. Could return a promise and the next attempt will wait for its resolution.
+  - `onFinalError?: function` - A function called with the last error. Could return a promise.
+
+Same as `timeout` but with some options.
+
+Example:
+
+```javascript
+const { retryWithOptions } = require('@arpinum/promising');
+```
+
 # timeout(milliseconds, func)
 
 - `milliseconds: number` - Delay before expiration.
-- `func: function` - Function to be prevented from timeout. Must return a promise.
+- `func: function` - Function to be prevented from timeout. Should usually return a promise.
 - returns: `function` - Function returning a promise.
 
 Creates a function that decorates another one forwarding any arguments. The resulting function returns a promise rejected if decorated function takes too much time.
