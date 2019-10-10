@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.0 - unreleased
+
+### Added
+
+- `wait` operation
+
 ## 3.0.0 - 2019-08-28
 
 ### Added

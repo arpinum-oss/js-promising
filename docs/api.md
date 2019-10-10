@@ -182,6 +182,23 @@ function resolveAfter(delay) {
 }
 ```
 
+# wait(milliseconds)
+
+- `milliseconds: number` - Delay before resolving.
+- returns: `function` - Function returning a promise resolving after the provided delay.
+
+Example:
+
+```javascript
+const { wait } = require('@arpinum/promising');
+
+console.log('Waiting');
+
+const twoSecondsLater = wait(2000);
+
+twoSecondsLater().then(() => console.log('Go go go !'));
+```
+
 # wrap(func)
 
 - `func: function` - Function to wrap into another one.
