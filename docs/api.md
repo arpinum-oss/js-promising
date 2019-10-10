@@ -33,7 +33,7 @@ const { delay } = require('@arpinum/promising');
 delay(2000, console.log)('I am late');
 ```
 
-If you just want to wait some time withouth delaying another function consider using [wait operation](#waitmilliseconds).
+If you just want to wait some time without delaying another function consider using [wait operation](#waitmilliseconds).
 
 # map(func, values)
 
