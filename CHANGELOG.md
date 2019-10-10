@@ -5,6 +5,7 @@
 ### Added
 
 - `wait` operation
+- `shouldRetry` option for `retry` operation
 
 ## 3.0.0 - 2019-08-28
 

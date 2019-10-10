@@ -157,6 +157,95 @@ describe('Retry with options', () => {
     expect(calls).toEqual(2);
   });
 
+  describe('when a should retry test is provided', () => {
+    it('should retry while the test stays true', () => {
+      let calls = 0;
+      const func = () => {
+        calls++;
+        if (calls === 5) {
+          return Promise.resolve('ok');
+        }
+        return Promise.reject(new Error('oh no :('));
+      };
+      const shouldRetry = () => calls < 3;
+
+      const retrying = retryWithOptions({ count: 10, shouldRetry }, func)();
+
+      return retrying.then(
+        () => Promise.reject(new Error('should have failed')),
+        (error: Error) => {
+          expect(error).toEqual(new Error('oh no :('));
+          expect(calls).toEqual(3);
+        }
+      );
+    });
+
+    it('should pass the error to determine if should retry', () => {
+      const func = () => {
+        return Promise.reject(new Error('oh no :('));
+      };
+      let shouldError: Error | null = null;
+      const shouldRetry = (error: Error) => {
+        shouldError = error;
+        return false;
+      };
+
+      const retrying = retryWithOptions({ count: 10, shouldRetry }, func)();
+
+      return retrying.then(
+        () => Promise.reject(new Error('should have failed')),
+        () => {
+          expect(shouldError).toEqual(new Error('oh no :('));
+        }
+      );
+    });
+
+    it('could determine the test aynchronously', () => {
+      let calls = 0;
+      const func = () => {
+        calls++;
+        if (calls === 5) {
+          return Promise.resolve('ok');
+        }
+        return Promise.reject(new Error('oh no :('));
+      };
+      const shouldRetry = () => Promise.resolve(calls < 3);
+
+      const retrying = retryWithOptions({ count: 10, shouldRetry }, func)();
+
+      return retrying.then(
+        () => Promise.reject(new Error('should have failed')),
+        (error: Error) => {
+          expect(error).toEqual(new Error('oh no :('));
+          expect(calls).toEqual(3);
+        }
+      );
+    });
+
+    it('should call on final error callback with last error if retry test becomes false', () => {
+      let finalError: Error | null = null;
+      const onFinalError = (error: Error) => {
+        finalError = error;
+      };
+      const func = () => {
+        return Promise.reject(new Error('oh no :('));
+      };
+      const shouldRetry = () => false;
+
+      const retrying = retryWithOptions(
+        { count: 10, onFinalError, shouldRetry },
+        func
+      )();
+
+      return retrying.then(
+        () => Promise.reject(new Error('should have failed')),
+        () => {
+          expect(finalError).toEqual(new Error('oh no :('));
+        }
+      );
+    });
+  });
+
   it('should forward arguments each try and eventually succeed', async () => {
     let calls = 0;
     const func = (message: string) => {
