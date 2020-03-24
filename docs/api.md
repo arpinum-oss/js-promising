@@ -8,10 +8,10 @@ Creates a function that returns a promise of the result of invoking the given fu
 Example:
 
 ```javascript
-const { compose } = require('@arpinum/promising');
+const { compose } = require("@arpinum/promising");
 
 const add = (x, y) => Promise.resolve(x + y);
-const square = x => Promise.resolve(x * x);
+const square = (x) => Promise.resolve(x * x);
 const addSquare = compose([add, square]);
 
 addSquare(1, 2).then(console.log); // 9
@@ -28,9 +28,9 @@ Creates a function that delays a given function forwarding any arguments.
 Example:
 
 ```javascript
-const { delay } = require('@arpinum/promising');
+const { delay } = require("@arpinum/promising");
 
-delay(2000, console.log)('I am late');
+delay(2000, console.log)("I am late");
 ```
 
 If you just want to wait some time without delaying another function consider using [wait operation](#waitmilliseconds).
@@ -46,9 +46,9 @@ Creates a promise that is resolved after having applied an async function to val
 Example:
 
 ```javascript
-const { map } = require('@arpinum/promising');
+const { map } = require("@arpinum/promising");
 
-const square = x => Promise.resolve(x * x);
+const square = (x) => Promise.resolve(x * x);
 
 map(square, [1, 2, 3]).then(console.log); // [ 1, 4, 9 ]
 ```
@@ -60,9 +60,9 @@ Same as `mapWithOptions` but with `concurrency` option set to 1 to run only one 
 Example:
 
 ```javascript
-const { mapSeries } = require('@arpinum/promising');
+const { mapSeries } = require("@arpinum/promising");
 
-const square = x => Promise.resolve(x * x);
+const square = (x) => Promise.resolve(x * x);
 
 mapSeries(square, [1, 2, 3]).then(console.log); // [ 1, 4, 9 ]
 ```
@@ -77,9 +77,9 @@ Same as `map` but with some options.
 Example:
 
 ```javascript
-const { mapWithOptions } = require('@arpinum/promising');
+const { mapWithOptions } = require("@arpinum/promising");
 
-const square = x => Promise.resolve(x * x);
+const square = (x) => Promise.resolve(x * x);
 
 mapWithOptions(square, { concurrency: 2 }, [1, 2, 3]).then(console.log); // [ 1, 4, 9 ]
 ```
@@ -96,14 +96,12 @@ The function is either rejected with an error if 1st callback parameter is not n
 Example:
 
 ```javascript
-const fs = require('fs');
-const { promisify } = require('@arpinum/promising');
+const fs = require("fs");
+const { promisify } = require("@arpinum/promising");
 
 const readdir = promisify(fs.readdir);
 
-readdir(__dirname)
-  .then(console.log)
-  .catch(console.error);
+readdir(__dirname).then(console.log).catch(console.error);
 ```
 
 # retry(count, func)
@@ -119,7 +117,7 @@ To avoid any confusion, if `count` equals `3`, `func` will be called once then 3
 Example:
 
 ```javascript
-const { retry } = require('@arpinum/promising');
+const { retry } = require("@arpinum/promising");
 ```
 
 # retryWithOptions(options, func)
@@ -135,7 +133,7 @@ Same as `retry` but with some options.
 Example:
 
 ```javascript
-const { retryWithOptions } = require('@arpinum/promising');
+const { retryWithOptions } = require("@arpinum/promising");
 ```
 
 # timeout(milliseconds, func)
@@ -149,14 +147,17 @@ Creates a function that decorates another one forwarding any arguments. The resu
 Example:
 
 ```javascript
-const { timeout } = require('@arpinum/promising');
+const { timeout } = require("@arpinum/promising");
 
-timeout(300, resolveAfter)(5000)
-  .then(() => console.log('Will not be called'))
+timeout(
+  300,
+  resolveAfter
+)(5000)
+  .then(() => console.log("Will not be called"))
   .catch(console.error);
 
 function resolveAfter(delay) {
-  return new Promise(resolve => setTimeout(resolve, delay));
+  return new Promise((resolve) => setTimeout(resolve, delay));
 }
 ```
 
@@ -170,10 +171,14 @@ Same as `timeout` but with some options.
 Example:
 
 ```javascript
-const { timeoutWithOptions } = require('@arpinum/promising');
+const { timeoutWithOptions } = require("@arpinum/promising");
 
-timeoutWithOptions(300, { createError }, resolveAfter)(5000)
-  .then(() => console.log('Will not be called'))
+timeoutWithOptions(
+  300,
+  { createError },
+  resolveAfter
+)(5000)
+  .then(() => console.log("Will not be called"))
   .catch(console.error);
 
 function createError(delay) {
@@ -181,7 +186,7 @@ function createError(delay) {
 }
 
 function resolveAfter(delay) {
-  return new Promise(resolve => setTimeout(resolve, delay));
+  return new Promise((resolve) => setTimeout(resolve, delay));
 }
 ```
 
@@ -193,13 +198,13 @@ function resolveAfter(delay) {
 Example:
 
 ```javascript
-const { wait } = require('@arpinum/promising');
+const { wait } = require("@arpinum/promising");
 
-console.log('Waiting');
+console.log("Waiting");
 
 const twoSecondsLater = wait(2000);
 
-twoSecondsLater().then(() => console.log('Go go go !'));
+twoSecondsLater().then(() => console.log("Go go go !"));
 ```
 
 # wrap(func)
@@ -214,13 +219,13 @@ If any error happens in synchronous code, the promise is rejected.
 Example:
 
 ```javascript
-const { wrap } = require('@arpinum/promising');
+const { wrap } = require("@arpinum/promising");
 
 const parse = wrap(JSON.parse);
 
-parse('{"message": "ok"}').then(o => console.log(o.message)); // ok
+parse('{"message": "ok"}').then((o) => console.log(o.message)); // ok
 
-parse('[}').catch(e => console.error(e.message)); // Unexpected token...
+parse("[}").catch((e) => console.error(e.message)); // Unexpected token...
 ```
 
 # createQueue(options)
@@ -237,16 +242,16 @@ Creates a [Queue](#queue-object) object which can enqueue functions returning a 
 Example:
 
 ```javascript
-const { createQueue } = require('@arpinum/promising');
+const { createQueue } = require("@arpinum/promising");
 
 const queue = createQueue({ capacity: 3 });
 
-queue.enqueue(() => eventuallyLog('1'));
-queue.enqueue(() => eventuallyLog('2'));
-queue.enqueue(() => eventuallyLog('3'));
+queue.enqueue(() => eventuallyLog("1"));
+queue.enqueue(() => eventuallyLog("2"));
+queue.enqueue(() => eventuallyLog("3"));
 
 function eventuallyLog(message) {
-  return new Promise(resolve => setTimeout(resolve, 1000)).then(() =>
+  return new Promise((resolve) => setTimeout(resolve, 1000)).then(() =>
     console.log(message)
   );
 }

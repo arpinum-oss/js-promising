@@ -1,34 +1,34 @@
-import { delay } from './delay';
+import { delay } from "./delay";
 
-describe('Delay', () => {
-  it('should resolve after the given ms', () => {
+describe("Delay", () => {
+  it("should resolve after the given ms", () => {
     return delay(1, noop)();
   });
 
-  it('is auto curried', () => {
+  it("is auto curried", () => {
     return delay(1)(noop)();
   });
 
-  it('should passe all arguments to the created function', () => {
+  it("should passe all arguments to the created function", () => {
     const func = (...args: string[]) => args;
     const withDelay = delay(10, func);
 
-    const promise = withDelay('hello', 'world');
+    const promise = withDelay("hello", "world");
 
-    return promise.then(args => {
-      expect(args).toEqual(['hello', 'world']);
+    return promise.then((args) => {
+      expect(args).toEqual(["hello", "world"]);
     });
   });
 
-  describe('creates a function that', () => {
-    it('should resolve after the delay', () => {
-      const func = () => 'ok';
+  describe("creates a function that", () => {
+    it("should resolve after the delay", () => {
+      const func = () => "ok";
       const withDelay = delay(10, func);
 
       const promise = withDelay();
 
-      return promise.then(result => {
-        expect(result).toEqual('ok');
+      return promise.then((result) => {
+        expect(result).toEqual("ok");
       });
     });
   });

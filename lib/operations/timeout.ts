@@ -1,10 +1,10 @@
-import { autoCurry } from '../functions';
+import { autoCurry } from "../functions";
 import {
   AnyFunction,
   PromisifiedFunction,
-  PromisifiedReturnType
-} from '../types';
-import { wrap } from './wrap';
+  PromisifiedReturnType,
+} from "../types";
+import { wrap } from "./wrap";
 
 interface Options {
   createError?: (delay: number) => Error;

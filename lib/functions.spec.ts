@@ -1,8 +1,8 @@
-import { autoCurry } from './functions';
+import { autoCurry } from "./functions";
 
-describe('Functions module', () => {
-  describe('on auto curry', () => {
-    it('should call function when all args are provided', () => {
+describe("Functions module", () => {
+  describe("on auto curry", () => {
+    it("should call function when all args are provided", () => {
       const autoCurried = autoCurry(add2);
 
       const result = autoCurried(1, 2);
@@ -10,7 +10,7 @@ describe('Functions module', () => {
       expect(result).toEqual(3);
     });
 
-    it('should call function though more args are provided', () => {
+    it("should call function though more args are provided", () => {
       const autoCurried = autoCurry(add2);
 
       const result = autoCurried(1, 2, 3, 4, 5);
@@ -18,13 +18,13 @@ describe('Functions module', () => {
       expect(result).toEqual(3);
     });
 
-    it('wont call function until all args are provided', () => {
+    it("wont call function until all args are provided", () => {
       const autoCurried = autoCurry(inc);
 
       expect(autoCurried()()()()()()()()()(2)).toEqual(3);
     });
 
-    it('should call function though it takes no args', () => {
+    it("should call function though it takes no args", () => {
       const autoCurried = autoCurry(always1);
 
       const result = autoCurried();
@@ -32,7 +32,7 @@ describe('Functions module', () => {
       expect(result).toEqual(1);
     });
 
-    it('should partially apply function with given arg', () => {
+    it("should partially apply function with given arg", () => {
       const autoCurried = autoCurry(add2);
 
       const result = autoCurried(1)(2);
@@ -40,7 +40,7 @@ describe('Functions module', () => {
       expect(result).toEqual(3);
     });
 
-    it('should partially apply function with given args', () => {
+    it("should partially apply function with given args", () => {
       const autoCurried = autoCurry(add3);
 
       expect(autoCurried(1, 2)(3)).toEqual(6);

@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const { compose } = require('../build');
+const { compose } = require("../build");
 
 const count = 100000;
 
@@ -13,7 +13,7 @@ compose(funcs)(0).then(printStatistics);
 function createFunctions() {
   const result = [];
   for (let i = 0; i < count; i++) {
-    result.push(number => Promise.resolve(number + 1));
+    result.push((number) => Promise.resolve(number + 1));
   }
   return result;
 }

@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const { wait } = require('../build');
+const { wait } = require("../build");
 
-console.log('Waiting');
+console.log("Waiting");
 
 const twoSecondsLater = wait(2000);
 
-twoSecondsLater().then(() => console.log('Go go go !'));
+twoSecondsLater().then(() => console.log("Go go go !"));

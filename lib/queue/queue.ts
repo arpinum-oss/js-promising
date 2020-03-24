@@ -1,4 +1,4 @@
-import { AnyFunction } from '../types';
+import { AnyFunction } from "../types";
 
 export interface QueueOptions {
   capacity?: number;
@@ -23,14 +23,14 @@ export function createQueue(options?: QueueOptions): Queue {
     capacity,
     concurrency,
     onRunningUpdated,
-    onCountUpdated
+    onCountUpdated,
   } = Object.assign(
     {},
     {
       capacity: Number.MAX_SAFE_INTEGER,
       concurrency: 1,
       onRunningUpdated: () => undefined,
-      onCountUpdated: () => undefined
+      onCountUpdated: () => undefined,
     },
     options
   );
@@ -51,11 +51,11 @@ export function createQueue(options?: QueueOptions): Queue {
 
     return promise
       .then(() => action())
-      .then(result => {
+      .then((result) => {
         runComplete();
         return result;
       })
-      .catch(rejection => {
+      .catch((rejection) => {
         runComplete();
         throw rejection;
       });
@@ -110,7 +110,7 @@ export function createQueue(options?: QueueOptions): Queue {
 
   function createDeferred() {
     let resolve: Resolve = () => undefined;
-    const promise = new Promise(r => {
+    const promise = new Promise((r) => {
       resolve = r;
     });
     return { promise, resolve };

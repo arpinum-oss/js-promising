@@ -1,5 +1,5 @@
-import { autoCurry } from '../functions';
-import { wrap } from './wrap';
+import { autoCurry } from "../functions";
+import { wrap } from "./wrap";
 
 interface Options {
   concurrency?: number;
@@ -22,7 +22,7 @@ function doRawMapWithOptions<T1, T2>(
     return Promise.resolve([]);
   }
   if (values.length === 1) {
-    return func(values[0]).then(r => [r]);
+    return func(values[0]).then((r) => [r]);
   }
   return new Promise((resolve, reject) => {
     const results = new Array(values.length);
@@ -37,10 +37,10 @@ function doRawMapWithOptions<T1, T2>(
       if (index !== values.length) {
         const resultIndex = index;
         func(values[index])
-          .then(result => {
+          .then((result) => {
             handleSuccess(result, resultIndex);
           })
-          .catch(error => {
+          .catch((error) => {
             handleError(error);
           });
         index++;

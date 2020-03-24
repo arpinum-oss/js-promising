@@ -1,5 +1,5 @@
 // tslint:disable: no-console
-import { compose } from '../lib';
+import { compose } from "../lib";
 
 const add = (x: number, y: number) => Promise.resolve(x + y);
 const square = (x: number) => Promise.resolve(x * x);

@@ -1,4 +1,4 @@
-import { AnyFunction } from '../types';
+import { AnyFunction } from "../types";
 
 export type ErrorFirstCallback<R = void> = (
   error: Error | null,

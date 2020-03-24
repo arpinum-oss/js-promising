@@ -1,8 +1,8 @@
 import {
   AnyFunction,
   PromisifiedFunction,
-  PromisifiedReturnType
-} from '../types';
+  PromisifiedReturnType,
+} from "../types";
 
 export function wrap<F extends AnyFunction>(func: F): PromisifiedFunction<F> {
   return (...args: any[]) => {

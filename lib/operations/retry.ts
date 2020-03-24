@@ -1,6 +1,6 @@
-import { autoCurry } from '../functions';
-import { AnyFunction, PromisifiedFunction } from '../types';
-import { wrap } from './wrap';
+import { autoCurry } from "../functions";
+import { AnyFunction, PromisifiedFunction } from "../types";
+import { wrap } from "./wrap";
 
 interface Options {
   count?: number;
@@ -17,7 +17,7 @@ export function rawRetryWithOptions<F extends AnyFunction>(
     count = 3,
     onTryError = () => undefined,
     onFinalError = () => undefined,
-    shouldRetry = () => true
+    shouldRetry = () => true,
   } = options;
   const wrappedOnTryError = wrap(onTryError);
   const wrappedOnFinalError = wrap(onFinalError);
@@ -28,7 +28,7 @@ export function rawRetryWithOptions<F extends AnyFunction>(
       count,
       onTryError: wrappedOnTryError,
       onFinalError: wrappedOnFinalError,
-      shouldRetry: wrappedshouldRetry
+      shouldRetry: wrappedshouldRetry,
     },
     wrappedFunc
   );
@@ -49,7 +49,7 @@ function doRawRetryWithOptions<F extends AnyFunction>(
   return (...args: Parameters<F>) =>
     func(...args).catch((error: Error) => {
       const nextCount = count - 1;
-      return canRetry(error, nextCount).then(retryPossible => {
+      return canRetry(error, nextCount).then((retryPossible) => {
         if (!retryPossible) {
           return onFinalError(error).then(() => Promise.reject(error));
         }
@@ -59,7 +59,7 @@ function doRawRetryWithOptions<F extends AnyFunction>(
               count: nextCount,
               onTryError,
               onFinalError,
-              shouldRetry
+              shouldRetry,
             },
             func
           )(...args)

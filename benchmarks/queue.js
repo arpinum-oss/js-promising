@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const { createQueue } = require('../build');
+const { createQueue } = require("../build");
 
 const count = 100000;
 

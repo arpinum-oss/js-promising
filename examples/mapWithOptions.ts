@@ -1,5 +1,5 @@
 // tslint:disable: no-console
-import { mapWithOptions } from '../lib';
+import { mapWithOptions } from "../lib";
 
 const square = (x: number) => Promise.resolve(x * x);
 

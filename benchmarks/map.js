@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-const { map, mapSeries, mapWithOptions } = require('../build');
+const { map, mapSeries, mapWithOptions } = require("../build");
 
 const count = 100000;
 
@@ -11,16 +11,16 @@ run();
 
 async function run() {
   await benchmark(
-    () => map(f => f(), createPromiseFuncs()),
-    'Map (concurrency: 3)'
+    () => map((f) => f(), createPromiseFuncs()),
+    "Map (concurrency: 3)"
   );
   await benchmark(
-    () => mapWithOptions(f => f(), { concurrency: 1 }, createPromiseFuncs()),
-    'Map (concurrency: 1)'
+    () => mapWithOptions((f) => f(), { concurrency: 1 }, createPromiseFuncs()),
+    "Map (concurrency: 1)"
   );
   await benchmark(
-    () => mapSeries(f => f(), createPromiseFuncs()),
-    'Map series'
+    () => mapSeries((f) => f(), createPromiseFuncs()),
+    "Map series"
   );
 }
 

@@ -1,81 +1,81 @@
-import { delay, wrap } from '../operations';
-import { createQueue, Queue } from './queue';
+import { delay, wrap } from "../operations";
+import { createQueue, Queue } from "./queue";
 
-describe('A queue', () => {
+describe("A queue", () => {
   let queue: Queue;
 
   beforeEach(() => {
     queue = createQueue();
   });
 
-  it('should run action if empty', () => {
-    const action = () => Promise.resolve('run');
+  it("should run action if empty", () => {
+    const action = () => Promise.resolve("run");
 
-    return queue.enqueue(action).then(result => {
-      expect(result).toEqual('run');
+    return queue.enqueue(action).then((result) => {
+      expect(result).toEqual("run");
     });
   });
 
-  it('should run queued actions sequentially', () => {
+  it("should run queued actions sequentially", () => {
     const runs: string[] = [];
 
     const promises = [
-      queue.enqueue(delay(30, () => runs.push('1'))),
-      queue.enqueue(delay(20, () => runs.push('2'))),
-      queue.enqueue(delay(0, () => runs.push('3')))
+      queue.enqueue(delay(30, () => runs.push("1"))),
+      queue.enqueue(delay(20, () => runs.push("2"))),
+      queue.enqueue(delay(0, () => runs.push("3"))),
     ];
 
     return Promise.all(promises).then(() => {
-      expect(runs).toEqual(['1', '2', '3']);
+      expect(runs).toEqual(["1", "2", "3"]);
     });
   });
 
-  it('should accept another action though previous one has failed', () => {
+  it("should accept another action though previous one has failed", () => {
     const runs: string[] = [];
     const myQueue = createQueue({ capacity: 2 });
 
     const promises = [
       myQueue
-        .enqueue(() => Promise.reject('failure'))
-        .catch(() => runs.push('failing action')),
-      myQueue.enqueue(wrap(() => runs.push('second action')))
+        .enqueue(() => Promise.reject("failure"))
+        .catch(() => runs.push("failing action")),
+      myQueue.enqueue(wrap(() => runs.push("second action"))),
     ];
 
     return Promise.all(promises).then(() => {
-      expect(runs).toContain('failing action');
-      expect(runs).toContain('second action');
+      expect(runs).toContain("failing action");
+      expect(runs).toContain("second action");
     });
   });
 
-  it('could be configured to run multiple actions concurrently', () => {
+  it("could be configured to run multiple actions concurrently", () => {
     const runs: string[] = [];
     const myQueue = createQueue({ concurrency: 2 });
 
     const promises = [
-      myQueue.enqueue(delay(30, () => runs.push('1'))),
-      myQueue.enqueue(delay(10, () => runs.push('2'))),
-      myQueue.enqueue(delay(15, () => runs.push('3'))),
-      myQueue.enqueue(delay(20, () => runs.push('4')))
+      myQueue.enqueue(delay(30, () => runs.push("1"))),
+      myQueue.enqueue(delay(10, () => runs.push("2"))),
+      myQueue.enqueue(delay(15, () => runs.push("3"))),
+      myQueue.enqueue(delay(20, () => runs.push("4"))),
     ];
 
     return Promise.all(promises).then(() => {
-      expect(runs).toEqual(['2', '3', '1', '4']);
+      expect(runs).toEqual(["2", "3", "1", "4"]);
     });
   });
 
-  it('could be configured to run callback when running count is updated', () => {
+  it("could be configured to run callback when running count is updated", () => {
     const updates: number[] = [];
     const myQueue = createQueue({
       concurrency: 2,
-      onRunningUpdated: value => {
+      onRunningUpdated: (value) => {
         updates.push(value);
-      }
+      },
     });
 
     const promises = [
       myQueue.enqueue(delay(0, () => undefined)),
       myQueue.enqueue(delay(50, () => undefined)),
-      myQueue.enqueue(delay(100, () => undefined))
+      myQueue.enqueue(delay(100, () => undefined)),
     ];
 
     return Promise.all(promises).then(() => {
@@ -83,18 +83,18 @@ describe('A queue', () => {
     });
   });
 
-  it('could be configured to run callback when count is updated', () => {
+  it("could be configured to run callback when count is updated", () => {
     const updates: number[] = [];
     const myQueue = createQueue({
-      onCountUpdated: value => {
+      onCountUpdated: (value) => {
         updates.push(value);
-      }
+      },
     });
 
     const promises = [
       myQueue.enqueue(delay(0, () => undefined)),
       myQueue.enqueue(delay(50, () => undefined)),
-      myQueue.enqueue(delay(100, () => undefined))
+      myQueue.enqueue(delay(100, () => undefined)),
     ];
 
     return Promise.all(promises).then(() => {

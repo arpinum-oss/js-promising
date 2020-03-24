@@ -1,8 +1,8 @@
-import { wait } from './wait';
+import { wait } from "./wait";
 
-describe('Wait', () => {
-  describe('creates a function that', () => {
-    it('should resolve after the given ms', async () => {
+describe("Wait", () => {
+  describe("creates a function that", () => {
+    it("should resolve after the given ms", async () => {
       const start = new Date();
 
       await wait(300)();
