@@ -1,6 +1,12 @@
 # Changelog
 
-## 3.1.0 - unreleased
+## 3.1.1 - 2020-03-24
+
+### Changed
+
+- update development dependencies
+
+## 3.1.0 - 2019-10-10
 
 ### Added
 
