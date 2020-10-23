@@ -3,11 +3,11 @@ import { compose } from "./compose";
 import { delay } from "./delay";
 
 describe("Compose", () => {
-  it("should create a promise function of all functions", () => {
+  it("should create a promise function applying all functions from right to left", () => {
     const runs: string[] = [];
     const functions = [
-      delay(1, () => runs.push("1")),
-      delay(2, () => runs.push("2")),
+      delay(20, () => runs.push("2")),
+      delay(10, () => runs.push("1")),
     ];
 
     const globalPromise = compose(functions)();
@@ -41,8 +41,8 @@ describe("Compose", () => {
   it("should preserve order", () => {
     const runs: string[] = [];
     const functions = [
-      delay(10, () => runs.push("1")),
-      delay(1, () => runs.push("2")),
+      delay(10, () => runs.push("2")),
+      delay(20, () => runs.push("1")),
     ];
 
     const globalPromise = compose(functions)();
@@ -54,9 +54,9 @@ describe("Compose", () => {
 
   it("should supply return value of the previous function to the next", () => {
     const functions = [
-      delay(1, (result) => [...result, "1"]),
-      delay(1, (result) => [...result, "2"]),
-      delay(1, (result) => [...result, "3"]),
+      delay(10, (result) => [...result, "3"]),
+      delay(10, (result) => [...result, "2"]),
+      delay(10, (result) => [...result, "1"]),
     ];
 
     const globalPromise = compose(functions)(["initial"]);
@@ -68,9 +68,9 @@ describe("Compose", () => {
 
   it("should handle sync and async functions", () => {
     const functions: ((f: string[]) => void)[] = [
+      (result) => [...result, "3"],
+      delay(10, (result) => [...result, "2"]),
       (result) => [...result, "1"],
-      (result) => [...result, "2"],
-      delay(1, (result) => [...result, "3"]),
     ];
 
     const globalPromise = compose(functions)(["initial"]);
@@ -82,9 +82,9 @@ describe("Compose", () => {
 
   it("should handle rejections", () => {
     const functions: ((f: string[]) => void)[] = [
-      (result) => [...result, "1"],
-      () => Promise.reject(new Error("bleh")),
       (result) => [...result, "3"],
+      () => Promise.reject(new Error("bleh")),
+      (result) => [...result, "1"],
     ];
 
     const globalPromise = compose(functions)(["initial"]);
@@ -95,10 +95,10 @@ describe("Compose", () => {
     );
   });
 
-  it("should first function to have any number of arguments", () => {
+  it("should allow first function to have any number of arguments", () => {
     const add = (x: number, y: number) => Promise.resolve(x + y);
     const square = (x: number) => Promise.resolve(x * x);
-    const addSquare = compose([add, square]);
+    const addSquare = compose([square, add]);
 
     return addSquare(1, 2).then((result) => {
       expect(result).toEqual(9);

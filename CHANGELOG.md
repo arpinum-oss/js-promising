@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.0.0 - UNRELEASED
+
+### Added
+
+- `pipe` operation, which is same as `compose` but applies function from left to right
+
+### Breaking changes
+
+- `compose` applies function from right to left instead of left to right
+
 ## 3.1.1 - 2020-03-24
 
 ### Changed

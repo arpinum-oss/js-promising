@@ -20,7 +20,8 @@ export function compose(
           const [result] = runNextArgs;
           resolve(result);
         } else {
-          wrap(functions[doneCount])(...runNextArgs)
+          const index = functions.length - doneCount - 1;
+          wrap(functions[index])(...runNextArgs)
             .then((updatedResult: any) => {
               doneCount++;
               runNext(updatedResult);

@@ -20,6 +20,7 @@ npm install @arpinum/promising --save
 - [`map` operation](docs/api.md#mapfunc-values)
 - [`mapSeries` operation](docs/api.md#mapseriesfunc-values)
 - [`mapWithOptions` operation](docs/api.md#mapwithoptionsfunc-options-values)
+- [`pipe` operation](docs/api.md#pipefunctions)
 - [`promisify` operation](docs/api.md#promisifyfunc)
 - [`retry` operation](docs/api.md#retrycount-func)
 - [`retryWithOptions` operation](docs/api.md#retrywithoptionscount-options-func)

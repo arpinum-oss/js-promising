@@ -1,9 +1,9 @@
 # compose(functions)
 
-- `functions: Array<function>` - Functions to invoke.
+- `functions: Array<function>` - Functions to invoke from right to left.
 - returns: `function` - Function returning a promise of the result.
 
-Creates a function that returns a promise of the result of invoking the given functions, where each successive async invocation is supplied the return value of the previous.
+Creates a function that returns a promise of the result of invoking the given functions from right to left, where each successive async invocation is supplied the return value of the previous.
 
 Example:
 
@@ -12,10 +12,12 @@ const { compose } = require("@arpinum/promising");
 
 const add = (x, y) => Promise.resolve(x + y);
 const square = (x) => Promise.resolve(x * x);
-const addSquare = compose([add, square]);
+const addSquare = compose([square, add]);
 
 addSquare(1, 2).then(console.log); // 9
 ```
+
+See [`pipe`](#pipefunctions) if you prefer invoking functions from left to right.
 
 # delay(milliseconds, func)
 
@@ -82,6 +84,25 @@ const { mapWithOptions } = require("@arpinum/promising");
 const square = (x) => Promise.resolve(x * x);
 
 mapWithOptions(square, { concurrency: 2 }, [1, 2, 3]).then(console.log); // [ 1, 4, 9 ]
+```
+
+# pipe(functions)
+
+- `functions: Array<function>` - Functions to invoke from left to right.
+- returns: `function` - Function returning a promise of the result.
+
+Same as [`compose`](#composefunctions) except function order is from left to right.
+
+Example:
+
+```javascript
+const { pipe } = require("@arpinum/promising");
+
+const add = (x, y) => Promise.resolve(x + y);
+const square = (x) => Promise.resolve(x * x);
+const addSquare = pipe([add, square]);
+
+addSquare(1, 2).then(console.log); // 9
 ```
 
 # promisify(func)
