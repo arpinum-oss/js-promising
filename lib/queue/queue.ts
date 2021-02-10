@@ -7,7 +7,7 @@ export interface QueueOptions {
   onCountUpdated?: (count: number) => void;
 }
 
-type Resolve = () => void;
+type Resolve = (value?: unknown) => void;
 
 interface QueueItem {
   next: QueueItem | null;
@@ -64,7 +64,7 @@ export function createQueue(options?: QueueOptions): Queue {
       return count >= capacity;
     }
 
-    function add(newResolve: () => void) {
+    function add(newResolve: Resolve) {
       if (head !== null) {
         (tail as QueueItem).next = { resolve: newResolve, next: null };
         tail = (tail as QueueItem).next;

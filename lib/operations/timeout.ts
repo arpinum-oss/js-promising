@@ -18,16 +18,21 @@ function rawTimeoutWithOptions<F extends AnyFunction>(
   return (...args: Parameters<F>) => {
     const opts = Object.assign({}, { createError }, options);
     return new Promise((resolve, reject) => {
+      let done = false;
       const timer = setTimeout(() => {
-        reject(opts.createError(delay));
+        if (!done) {
+          reject(opts.createError(delay));
+        }
       }, delay);
       const wrappedFunc = wrap(func);
       return wrappedFunc(...args)
         .then((result: any) => {
+          done = true;
           clearTimeout(timer);
           resolve(result);
         })
         .catch((rejection: Error) => {
+          done = true;
           clearTimeout(timer);
           reject(rejection);
         });

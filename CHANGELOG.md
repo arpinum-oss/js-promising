@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.1 - UNRELEASED
+
+### Fixed
+
+- `timeout` operation is more reliable on edge cases
+
 ## 4.0.0 - 2020-10-23
 
 ### Added
