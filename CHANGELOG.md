@@ -1,6 +1,12 @@
 # Changelog
 
+## 4.1.0 - UNRELEASED
+
+### Added
+
 ## 4.0.1 - 2021-02-10
+
+- `endlessly` option for `retryWithOptions` operation which defaults to false
 
 ### Fixed
 
@@ -27,7 +33,7 @@
 ### Added
 
 - `wait` operation
-- `shouldRetry` option for `retry` operation
+- `shouldRetry` option for `retryWithOptions` operation
 
 ## 3.0.0 - 2019-08-28
 

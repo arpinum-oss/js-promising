@@ -145,6 +145,7 @@ const { retry } = require("@arpinum/promising");
 
 - `options: Object`
   - `count?: number` - The attempts to retry the function call if any error occurs. Defaults to 3.
+  - `endlessly?: boolean` - To retry endlessly except when `shouldRetry` is provided and not satisfied. Defaults to false.
   - `onTryError?: function` - A function called with each error except last one. Could return a promise and the next attempt will wait for its resolution.
   - `onFinalError?: function` - A function called with the last error. Could return a promise.
   - `shouldRetry?: function` - A function called with each error to determine if we should retry. Could return a promise.

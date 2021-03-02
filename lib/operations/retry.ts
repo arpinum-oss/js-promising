@@ -4,6 +4,7 @@ import { wrap } from "./wrap";
 
 interface Options {
   count?: number;
+  endlessly?: boolean;
   onTryError?: (error: Error) => any;
   onFinalError?: (error: Error) => any;
   shouldRetry?: (error: Error) => boolean | Promise<boolean>;
@@ -15,6 +16,7 @@ export function rawRetryWithOptions<F extends AnyFunction>(
 ): PromisifiedFunction<F> {
   const {
     count = 3,
+    endlessly = false,
     onTryError = () => undefined,
     onFinalError = () => undefined,
     shouldRetry = () => true,
@@ -26,6 +28,7 @@ export function rawRetryWithOptions<F extends AnyFunction>(
   return doRawRetryWithOptions(
     {
       count,
+      endlessly,
       onTryError: wrappedOnTryError,
       onFinalError: wrappedOnFinalError,
       shouldRetry: wrappedshouldRetry,
@@ -36,6 +39,7 @@ export function rawRetryWithOptions<F extends AnyFunction>(
 
 interface ResolvedOptions {
   count: number;
+  endlessly: boolean;
   onTryError: (error: Error) => Promise<any>;
   onFinalError: (error: Error) => Promise<any>;
   shouldRetry: (error: Error) => Promise<boolean>;
@@ -45,10 +49,10 @@ function doRawRetryWithOptions<F extends AnyFunction>(
   options: Required<ResolvedOptions>,
   func: F
 ): PromisifiedFunction<F> {
-  const { count, onTryError, onFinalError, shouldRetry } = options;
+  const { count, endlessly, onTryError, onFinalError, shouldRetry } = options;
   return (...args: Parameters<F>) =>
     func(...args).catch((error: Error) => {
-      const nextCount = count - 1;
+      const nextCount = endlessly ? count : count - 1;
       return canRetry(error, nextCount).then((retryPossible) => {
         if (!retryPossible) {
           return onFinalError(error).then(() => Promise.reject(error));
@@ -57,6 +61,7 @@ function doRawRetryWithOptions<F extends AnyFunction>(
           doRawRetryWithOptions(
             {
               count: nextCount,
+              endlessly,
               onTryError,
               onFinalError,
               shouldRetry,

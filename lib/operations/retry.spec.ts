@@ -52,6 +52,27 @@ describe("Retry with options", () => {
     );
   });
 
+  it("could retry endlessly", async () => {
+    let calls = 0;
+    const func = () => {
+      calls++;
+      return Promise.reject(new Error("oh no :("));
+    };
+
+    const retrying = retryWithOptions(
+      { endlessly: true, shouldRetry: () => calls < 10 },
+      func
+    )();
+
+    return retrying.then(
+      () => Promise.reject(new Error("should have failed")),
+      (error: Error) => {
+        expect(error).toEqual(new Error("oh no :("));
+        expect(calls).toEqual(10);
+      }
+    );
+  });
+
   it("should retry and eventually succeed", async () => {
     let calls = 0;
     const func = () => {
