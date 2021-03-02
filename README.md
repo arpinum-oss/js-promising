@@ -23,7 +23,7 @@ npm install @arpinum/promising --save
 - [`pipe` operation](docs/api.md#pipefunctions)
 - [`promisify` operation](docs/api.md#promisifyfunc)
 - [`retry` operation](docs/api.md#retrycount-func)
-- [`retryWithOptions` operation](docs/api.md#retrywithoptionscount-options-func)
+- [`retryWithOptions` operation](docs/api.md#retrywithoptionsoptions-func)
 - [`timeout` operation](docs/api.md#timeoutmilliseconds-func)
 - [`timeoutWithOptions` operation](docs/api.md#timeoutwithoptionsmilliseconds-options-func)
 - [`wait` operation](docs/api.md#waitmilliseconds)
