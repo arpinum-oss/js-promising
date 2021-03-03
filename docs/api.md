@@ -320,4 +320,4 @@ function eventuallyLog(message) {
 ## stack.push(func)
 
 - `func: function` - Function to exectute that may return a promise or an immediate value.
-- returns: `Promise<any>` - Promise resolved when pushed function has been poped or discard is capacity is reached.
+- returns: `Promise<any>` - Promise resolved when pushed function has been poped or discarded if capacity is reached.
