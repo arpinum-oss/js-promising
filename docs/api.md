@@ -279,9 +279,45 @@ function eventuallyLog(message) {
 }
 ```
 
-# Queue object
+# Stack object
 
-## queue.enqueue(func)
+## stack.push(func)
 
 - `func: function` - Function to exectute that may return a promise or an immediate value.
-- returns: `Promise<any>` - Promise resolved when enqueued function has been dequeued.
+- returns: `Promise<any>` - Promise resolved when pushed function has been poped.
+
+# createStack(options)
+
+- `options: Object`
+  - `capacity: number` - Maximum number of function either running or stacked. When capacity is reached tail function is discarded. Defaults to unlimited.
+  - `concurrency: number` - Number of promises to run concurrently. Defaults to 1.
+  - `onRunningUpdated: function` - Callback function called when running function count is updated. Count is passed as argument. Does nothing by default.
+  - `onCountUpdated: function` - Callback function called when function count is updated. Count is passed as argument. Does nothing by default.
+- returns: `Stack`
+
+Creates a [Stack](#stack-object) object which can push functions returning a promise and pop them sequentially.
+
+Example:
+
+```javascript
+const { createStack } = require("@arpinum/promising");
+
+const stack = createStack({ capacity: 3 });
+
+stack.push(() => eventuallyLog("1"));
+stack.push(() => eventuallyLog("2"));
+stack.push(() => eventuallyLog("3"));
+
+function eventuallyLog(message) {
+  return new Promise((resolve) => setTimeout(resolve, 1000)).then(() =>
+    console.log(message)
+  );
+}
+```
+
+# Stack object
+
+## stack.push(func)
+
+- `func: function` - Function to exectute that may return a promise or an immediate value.
+- returns: `Promise<any>` - Promise resolved when pushed function has been poped or discard is capacity is reached.

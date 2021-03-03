@@ -1,3 +1,4 @@
+import { createDeferred, Resolve } from "../promises";
 import { AnyFunction } from "../types";
 
 export interface QueueOptions {
@@ -6,8 +7,6 @@ export interface QueueOptions {
   onRunningUpdated?: (count: number) => void;
   onCountUpdated?: (count: number) => void;
 }
-
-type Resolve = (value?: unknown) => void;
 
 interface QueueItem {
   next: QueueItem | null;
@@ -41,33 +40,30 @@ export function createQueue(options?: QueueOptions): Queue {
 
   return { enqueue };
 
-  function enqueue(action: AnyFunction) {
+  async function enqueue(action: AnyFunction) {
     if (capacityReached()) {
-      return Promise.resolve();
+      return;
     }
     const { resolve, promise } = createDeferred();
-    add(resolve);
+    add();
     dequeueIfPossible();
 
-    return promise
-      .then(() => action())
-      .then((result) => {
-        runComplete();
-        return result;
-      })
-      .catch((rejection) => {
-        runComplete();
-        throw rejection;
-      });
+    await promise;
+    try {
+      return await action();
+    } finally {
+      runComplete();
+    }
 
     function capacityReached() {
       return count >= capacity;
     }
 
-    function add(newResolve: Resolve) {
+    function add() {
       if (head !== null) {
-        (tail as QueueItem).next = { resolve: newResolve, next: null };
-        tail = (tail as QueueItem).next;
+        const newTail = { resolve, next: null };
+        (tail as QueueItem).next = newTail;
+        tail = newTail;
       } else {
         head = { resolve, next: null };
         tail = head;
@@ -106,13 +102,5 @@ export function createQueue(options?: QueueOptions): Queue {
       running = value;
       onRunningUpdated(running);
     }
-  }
-
-  function createDeferred() {
-    let resolve: Resolve = () => undefined;
-    const promise = new Promise((r) => {
-      resolve = r;
-    });
-    return { promise, resolve };
   }
 }

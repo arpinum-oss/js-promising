@@ -27,6 +27,7 @@
     "async",
     "map",
     "queue",
+    "stack",
     "auto-curried",
     "functional"
   ],

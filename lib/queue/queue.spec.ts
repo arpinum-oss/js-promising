@@ -8,46 +8,76 @@ describe("A queue", () => {
     queue = createQueue();
   });
 
-  it("should run action if empty", () => {
+  it("should run action if empty", async () => {
     const action = () => Promise.resolve("run");
 
-    return queue.enqueue(action).then((result) => {
-      expect(result).toEqual("run");
-    });
+    const result = await queue.enqueue(action);
+
+    expect(result).toEqual("run");
   });
 
-  it("should run queued actions sequentially", () => {
+  it("should run queued actions sequentially", async () => {
     const runs: string[] = [];
 
     const promises = [
       queue.enqueue(delay(30, () => runs.push("1"))),
       queue.enqueue(delay(20, () => runs.push("2"))),
-      queue.enqueue(delay(0, () => runs.push("3"))),
+      queue.enqueue(delay(10, () => runs.push("3"))),
     ];
 
-    return Promise.all(promises).then(() => {
-      expect(runs).toEqual(["1", "2", "3"]);
-    });
+    await Promise.all(promises);
+    expect(runs).toEqual(["1", "2", "3"]);
   });
 
-  it("should accept another action though previous one has failed", () => {
+  it("won't queue actions while capacity is reached", async () => {
     const runs: string[] = [];
     const myQueue = createQueue({ capacity: 2 });
 
     const promises = [
-      myQueue
-        .enqueue(() => Promise.reject("failure"))
-        .catch(() => runs.push("failing action")),
-      myQueue.enqueue(wrap(() => runs.push("second action"))),
+      myQueue.enqueue(delay(10, () => runs.push("1"))),
+      myQueue.enqueue(delay(10, () => runs.push("2"))),
+      myQueue.enqueue(delay(10, () => runs.push("3"))),
     ];
 
-    return Promise.all(promises).then(() => {
-      expect(runs).toContain("failing action");
-      expect(runs).toContain("second action");
-    });
+    await Promise.all(promises);
+    expect(runs).toEqual(["1", "2"]);
   });
 
-  it("could be configured to run multiple actions concurrently", () => {
+  it("should queue actions when capacity is no more reached", async () => {
+    const runs: string[] = [];
+    const myQueue = createQueue({ capacity: 2 });
+
+    const firstPromises = [
+      myQueue.enqueue(delay(10, () => runs.push("1"))),
+      myQueue.enqueue(delay(10, () => runs.push("2"))),
+    ];
+    await Promise.all(firstPromises);
+
+    const secondPromises = [
+      myQueue.enqueue(delay(10, () => runs.push("3"))),
+      myQueue.enqueue(delay(10, () => runs.push("4"))),
+    ];
+    await Promise.all(secondPromises);
+
+    expect(runs).toEqual(["1", "2", "3", "4"]);
+  });
+
+  it("should accept another action though previous one has failed", async () => {
+    const runs: string[] = [];
+
+    const promises = [
+      queue
+        .enqueue(() => Promise.reject("failure"))
+        .catch(() => runs.push("failing action")),
+      queue.enqueue(wrap(() => runs.push("second action"))),
+    ];
+
+    await Promise.all(promises);
+    expect(runs).toContain("failing action");
+    expect(runs).toContain("second action");
+  });
+
+  it("could be configured to run multiple actions concurrently", async () => {
     const runs: string[] = [];
     const myQueue = createQueue({ concurrency: 2 });
 
@@ -58,12 +88,11 @@ describe("A queue", () => {
       myQueue.enqueue(delay(20, () => runs.push("4"))),
     ];
 
-    return Promise.all(promises).then(() => {
-      expect(runs).toEqual(["2", "3", "1", "4"]);
-    });
+    await Promise.all(promises);
+    expect(runs).toEqual(["2", "3", "1", "4"]);
   });
 
-  it("could be configured to run callback when running count is updated", () => {
+  it("could be configured to run callback when running count is updated", async () => {
     const updates: number[] = [];
     const myQueue = createQueue({
       concurrency: 2,
@@ -73,17 +102,16 @@ describe("A queue", () => {
     });
 
     const promises = [
-      myQueue.enqueue(delay(0, () => undefined)),
+      myQueue.enqueue(delay(10, () => undefined)),
       myQueue.enqueue(delay(50, () => undefined)),
       myQueue.enqueue(delay(100, () => undefined)),
     ];
 
-    return Promise.all(promises).then(() => {
-      expect(updates).toEqual([1, 2, 1, 2, 1, 0]);
-    });
+    await Promise.all(promises);
+    expect(updates).toEqual([1, 2, 1, 2, 1, 0]);
   });
 
-  it("could be configured to run callback when count is updated", () => {
+  it("could be configured to run callback when count is updated", async () => {
     const updates: number[] = [];
     const myQueue = createQueue({
       onCountUpdated: (value) => {
@@ -92,13 +120,12 @@ describe("A queue", () => {
     });
 
     const promises = [
-      myQueue.enqueue(delay(0, () => undefined)),
+      myQueue.enqueue(delay(10, () => undefined)),
       myQueue.enqueue(delay(50, () => undefined)),
       myQueue.enqueue(delay(100, () => undefined)),
     ];
 
-    return Promise.all(promises).then(() => {
-      expect(updates).toEqual([1, 2, 3, 2, 1, 0]);
-    });
+    await Promise.all(promises);
+    expect(updates).toEqual([1, 2, 3, 2, 1, 0]);
   });
 });

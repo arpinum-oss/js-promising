@@ -30,6 +30,7 @@ npm install @arpinum/promising --save
 - [`wrap` operation](docs/api.md#wrapfunc)
 - [auto-currying](docs/auto-currying.md)
 - [queue object](docs/api.md#createqueueoptions)
+- [stack object](docs/api.md#createstackoptions)
 
 ## Docs
 

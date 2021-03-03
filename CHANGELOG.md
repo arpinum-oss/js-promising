@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.0 - UNRELEASED
+
+### Added
+
+- `createStack` function which is a LIFO equivalent to `createQueue`
+
 ## 4.1.0 - 2021-03-02
 
 ### Added
