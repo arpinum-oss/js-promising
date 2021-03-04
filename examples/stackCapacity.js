@@ -1,15 +1,19 @@
 "use strict";
 
-const { createStack } = require("../build");
-
 const stack = createStack({ capacity: 2 });
 
-stack.push(() => eventuallyLog("1"));
-stack.push(() => eventuallyLog("2"));
-stack.push(() => eventuallyLog("3"));
+let iterations = 0;
 
-function eventuallyLog(message) {
-  return new Promise((resolve) => setTimeout(resolve, 1000)).then(() =>
-    console.log(message)
+const interval = setInterval(() => {
+  const iteration = iterations++;
+  console.log(`Pushing #${iteration}`);
+  stack.push(() => eventuallyPrint(iteration));
+}, 300);
+
+setTimeout(() => clearInterval(interval), 5000);
+
+function eventuallyPrint(iteration) {
+  return new Promise((resolve) => setTimeout(resolve, 700)).then(() =>
+    console.log(`Processing #${iteration}`)
   );
 }

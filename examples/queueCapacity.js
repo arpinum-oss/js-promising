@@ -4,12 +4,18 @@ const { createQueue } = require("../build");
 
 const queue = createQueue({ capacity: 2 });
 
-queue.enqueue(() => eventuallyLog("1"));
-queue.enqueue(() => eventuallyLog("2"));
-queue.enqueue(() => eventuallyLog("3"));
+let iterations = 0;
 
-function eventuallyLog(message) {
-  return new Promise((resolve) => setTimeout(resolve, 1000)).then(() =>
-    console.log(message)
+const interval = setInterval(() => {
+  const iteration = iterations++;
+  console.log(`Pushing #${iteration}`);
+  queue.enqueue(() => eventuallyPrint(iteration));
+}, 300);
+
+setTimeout(() => clearInterval(interval), 5000);
+
+function eventuallyPrint(iteration) {
+  return new Promise((resolve) => setTimeout(resolve, 700)).then(() =>
+    console.log(`Processing #${iteration}`)
   );
 }
