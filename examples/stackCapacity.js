@@ -1,5 +1,7 @@
 "use strict";
 
+const { createStack } = require("../lib");
+
 const stack = createStack({ capacity: 2 });
 
 let iterations = 0;
