@@ -1,4 +1,3 @@
-// tslint:disable: no-console
 import { createQueue } from "../lib";
 
 const queue = createQueue();

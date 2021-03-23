@@ -1,4 +1,3 @@
-// tslint:disable: no-console
 import { wait } from "../lib";
 
 console.log("Waiting");

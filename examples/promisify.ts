@@ -1,4 +1,3 @@
-// tslint:disable: no-console
 import * as fs from "fs";
 import { promisify } from "../lib";
 

@@ -56,7 +56,9 @@ export function timeoutWithOptions(
 ): (
   options: Options
 ) => <F extends AnyFunction>(func: F) => PromisifiedFunction<F>;
-export function timeoutWithOptions(...args: []) {
+export function timeoutWithOptions<F extends AnyFunction>(
+  ...args: []
+): PromisifiedFunction<F> | ((func: F) => PromisifiedFunction<F>) {
   return curriedTimeoutWithOptions(...args);
 }
 
@@ -76,6 +78,8 @@ export function timeout<F extends AnyFunction>(
 export function timeout(
   delay: number
 ): <F extends AnyFunction>(func: F) => PromisifiedFunction<F>;
-export function timeout(...args: []) {
+export function timeout<F extends AnyFunction>(
+  ...args: []
+): PromisifiedFunction<F> | ((func: F) => PromisifiedFunction<F>) {
   return curriedTimeout(...args);
 }

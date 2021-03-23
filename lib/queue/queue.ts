@@ -10,7 +10,7 @@ export interface QueueOptions {
 
 interface QueueItem {
   next: QueueItem | null;
-  resolve: Resolve;
+  resolve: Resolve<void>;
 }
 
 export interface Queue {

@@ -88,7 +88,9 @@ export function retryWithOptions<F extends AnyFunction>(
 export function retryWithOptions(
   options: Options
 ): <F extends AnyFunction>(func: F) => PromisifiedFunction<F>;
-export function retryWithOptions(...args: any[]) {
+export function retryWithOptions<F extends AnyFunction>(
+  ...args: any[]
+): PromisifiedFunction<F> | ((func: F) => PromisifiedFunction<F>) {
   return curriedRetryWithOptions(...args);
 }
 
@@ -108,6 +110,8 @@ export function retry<F extends AnyFunction>(
 export function retry(
   count: number
 ): <F extends AnyFunction>(func: F) => PromisifiedFunction<F>;
-export function retry(...args: any[]) {
+export function retry<F extends AnyFunction>(
+  ...args: any[]
+): PromisifiedFunction<F> | ((func: F) => PromisifiedFunction<F>) {
   return curriedRetry(...args);
 }

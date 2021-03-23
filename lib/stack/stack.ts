@@ -11,7 +11,7 @@ export interface StackOptions {
 interface StackItem {
   next: StackItem | null;
   previous: StackItem | null;
-  resolve: Resolve;
+  resolve: Resolve<boolean>;
 }
 
 export interface Stack {
@@ -42,7 +42,7 @@ export function createStack(options?: StackOptions): Stack {
   return { push };
 
   async function push(action: AnyFunction) {
-    const { resolve, promise } = createDeferred();
+    const { resolve, promise } = createDeferred<boolean>();
     add();
     popIfPossible();
 

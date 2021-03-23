@@ -1,4 +1,3 @@
-// tslint:disable: no-console
 import { timeout } from "../lib";
 
 timeout(

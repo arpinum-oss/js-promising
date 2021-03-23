@@ -1,4 +1,3 @@
-// tslint:disable: no-console
 import { createQueue } from "../lib";
 
 const queue = createQueue({ capacity: 2 });
@@ -18,4 +17,3 @@ function eventuallyPrint(iteration: number) {
     console.log(`Processing #${iteration}`)
   );
 }
-

@@ -24,6 +24,8 @@ export function delay<F extends AnyFunction>(
 export function delay<F extends AnyFunction>(
   milliseconds: number
 ): (func: F) => PromisifiedFunction<F>;
-export function delay(...args: any[]) {
+export function delay<F extends AnyFunction>(
+  ...args: any[]
+): PromisifiedFunction<F> | ((func: F) => PromisifiedFunction<F>) {
   return curriedDelay(...args);
 }

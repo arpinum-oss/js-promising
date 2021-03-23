@@ -1,4 +1,3 @@
-// tslint:disable: no-console
 import { createStack } from "../lib";
 
 const stack = createStack();

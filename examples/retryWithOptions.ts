@@ -1,4 +1,3 @@
-// tslint:disable: no-console
 import { readFile } from "fs";
 import { promisify } from "util";
 import { retryWithOptions } from "../lib";

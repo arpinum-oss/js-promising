@@ -1,9 +1,17 @@
-export type Resolve = (value?: unknown) => void;
+export type Resolve<T> = (value: T | PromiseLike<T>) => void;
 
-export function createDeferred() {
-  let resolve: Resolve = () => undefined;
-  const promise = new Promise((r) => {
+export interface Deferred<T> {
+  promise: Promise<T>;
+  resolve: Resolve<T>;
+}
+
+export function createDeferred<T>(): Deferred<T> {
+  let resolve: Resolve<T> | undefined = undefined;
+  const promise = new Promise<T>((r) => {
     resolve = r;
   });
+  if (resolve === undefined) {
+    throw new Error("Resolve should not be undefined");
+  }
   return { promise, resolve };
 }

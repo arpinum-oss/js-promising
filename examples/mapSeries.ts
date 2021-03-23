@@ -1,4 +1,3 @@
-// tslint:disable: no-console
 import { mapSeries } from "../lib";
 
 const square = (x: number) => Promise.resolve(x * x);
