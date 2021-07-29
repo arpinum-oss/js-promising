@@ -45,14 +45,6 @@
     "typescript": "4.2.3"
   },
   "jest": {
-    "transform": {
-      ".ts": "ts-jest"
-    },
-    "testRegex": "/lib/.*\\.spec\\.ts$",
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ]
+    "preset":"ts-jest"
   }
 }
