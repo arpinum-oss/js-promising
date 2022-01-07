@@ -50,11 +50,11 @@ describe("Map with options", () => {
   });
 
   it("should reject if any promise is rejected", () => {
-    const globalPromise = mapWithOptions(rejectFor2, { concurrency: 3 }, [
-      1,
-      2,
-      3,
-    ]);
+    const globalPromise = mapWithOptions(
+      rejectFor2,
+      { concurrency: 3 },
+      [1, 2, 3]
+    );
 
     return globalPromise.then(
       () => Promise.reject(new Error("Should fail")),

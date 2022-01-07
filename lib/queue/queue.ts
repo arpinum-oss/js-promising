@@ -18,21 +18,17 @@ export interface Queue {
 }
 
 export function createQueue(options?: QueueOptions): Queue {
-  const {
-    capacity,
-    concurrency,
-    onRunningUpdated,
-    onCountUpdated,
-  } = Object.assign(
-    {},
-    {
-      capacity: Number.MAX_SAFE_INTEGER,
-      concurrency: 1,
-      onRunningUpdated: () => undefined,
-      onCountUpdated: () => undefined,
-    },
-    options
-  );
+  const { capacity, concurrency, onRunningUpdated, onCountUpdated } =
+    Object.assign(
+      {},
+      {
+        capacity: Number.MAX_SAFE_INTEGER,
+        concurrency: 1,
+        onRunningUpdated: () => undefined,
+        onCountUpdated: () => undefined,
+      },
+      options
+    );
   let head: QueueItem | null = null;
   let tail: QueueItem | null = null;
   let count = 0;

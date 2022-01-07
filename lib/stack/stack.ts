@@ -19,21 +19,17 @@ export interface Stack {
 }
 
 export function createStack(options?: StackOptions): Stack {
-  const {
-    capacity,
-    concurrency,
-    onRunningUpdated,
-    onCountUpdated,
-  } = Object.assign(
-    {},
-    {
-      capacity: Number.MAX_SAFE_INTEGER,
-      concurrency: 1,
-      onRunningUpdated: () => undefined,
-      onCountUpdated: () => undefined,
-    },
-    options
-  );
+  const { capacity, concurrency, onRunningUpdated, onCountUpdated } =
+    Object.assign(
+      {},
+      {
+        capacity: Number.MAX_SAFE_INTEGER,
+        concurrency: 1,
+        onRunningUpdated: () => undefined,
+        onCountUpdated: () => undefined,
+      },
+      options
+    );
   let head: StackItem | null = null;
   let tail: StackItem | null = null;
   let count = 0;
