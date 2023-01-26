@@ -279,12 +279,12 @@ function eventuallyLog(message) {
 }
 ```
 
-# Stack object
+# Queue object
 
-## stack.push(func)
+## queue.enqueue(func)
 
 - `func: function` - Function to exectute that may return a promise or an immediate value.
-- returns: `Promise<any>` - Promise resolved when pushed function has been poped.
+- returns: `Promise<any>` - Promise resolved when enqueued function has been dequeued.
 
 # createStack(options)
 
