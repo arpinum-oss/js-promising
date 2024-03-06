@@ -4,7 +4,7 @@ const { timeout } = require("../build");
 
 timeout(
   300,
-  resolveAfter
+  resolveAfter,
 )(5000)
   .then(() => console.log("Will not be called"))
   .catch(console.error);

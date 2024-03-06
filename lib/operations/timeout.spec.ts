@@ -13,7 +13,7 @@ describe("Timeout with options", () => {
       return promise.then(
         () => Promise.reject(new Error("Should fail")),
         (rejection) =>
-          expect(rejection.message).toEqual("Timeout expired (10ms)")
+          expect(rejection.message).toEqual("Timeout expired (10ms)"),
       );
     });
 
@@ -25,7 +25,7 @@ describe("Timeout with options", () => {
       return promise.then(
         () => Promise.reject(new Error("Should fail")),
         (rejection) =>
-          expect(rejection.message).toEqual("Timeout expired (10ms)")
+          expect(rejection.message).toEqual("Timeout expired (10ms)"),
       );
     });
 
@@ -33,14 +33,14 @@ describe("Timeout with options", () => {
       const withTimeout = timeoutWithOptions(
         10,
         { createError: (d) => new Error(`> ${d}ms`) },
-        slowFunction
+        slowFunction,
       );
 
       const promise = withTimeout();
 
       return promise.then(
         () => Promise.reject(new Error("Should fail")),
-        (rejection) => expect(rejection.message).toEqual("> 10ms")
+        (rejection) => expect(rejection.message).toEqual("> 10ms"),
       );
     });
 
@@ -70,7 +70,7 @@ describe("Timeout with options", () => {
     it("should forward promise rejection", () => {
       const failingFunction = () =>
         new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Failure sorry")), 10)
+          setTimeout(() => reject(new Error("Failure sorry")), 10),
         );
       const withTimeout = timeoutWithOptions(100, options, failingFunction);
 
@@ -78,7 +78,7 @@ describe("Timeout with options", () => {
 
       return promise.then(
         () => Promise.reject(new Error("Should fail")),
-        (rejection) => expect(rejection.message).toEqual("Failure sorry")
+        (rejection) => expect(rejection.message).toEqual("Failure sorry"),
       );
     });
   });
@@ -106,7 +106,7 @@ describe("Timeout", () => {
       return promise.then(
         () => Promise.reject(new Error("Should fail")),
         (rejection) =>
-          expect(rejection.message).toEqual("Timeout expired (10ms)")
+          expect(rejection.message).toEqual("Timeout expired (10ms)"),
       );
     });
 
@@ -118,7 +118,7 @@ describe("Timeout", () => {
       return promise.then(
         () => Promise.reject(new Error("Should fail")),
         (rejection) =>
-          expect(rejection.message).toEqual("Timeout expired (10ms)")
+          expect(rejection.message).toEqual("Timeout expired (10ms)"),
       );
     });
   });

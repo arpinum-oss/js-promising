@@ -9,7 +9,7 @@ export type PromisifiedFunction<F extends AnyFunction> = (
 type Promisified<T> = [T] extends [never]
   ? Promise<never>
   : T extends Promise<any>
-  ? T
-  : Promise<T>;
+    ? T
+    : Promise<T>;
 
 export type AnyFunction = (...args: any[]) => any;

@@ -48,7 +48,7 @@ describe("Retry with options", () => {
       (error: Error) => {
         expect(error).toEqual(new Error("oh no :("));
         expect(calls).toEqual(3);
-      }
+      },
     );
   });
 
@@ -61,7 +61,7 @@ describe("Retry with options", () => {
 
     const retrying = retryWithOptions(
       { endlessly: true, shouldRetry: () => calls < 10 },
-      func
+      func,
     )();
 
     return retrying.then(
@@ -69,7 +69,7 @@ describe("Retry with options", () => {
       (error: Error) => {
         expect(error).toEqual(new Error("oh no :("));
         expect(calls).toEqual(10);
-      }
+      },
     );
   });
 
@@ -113,7 +113,7 @@ describe("Retry with options", () => {
             "error 2",
             "call 3",
           ]);
-        }
+        },
       );
     });
 
@@ -137,7 +137,7 @@ describe("Retry with options", () => {
             new Error("oh no :( 1"),
             new Error("oh no :( 2"),
           ]);
-        }
+        },
       );
     });
   });
@@ -160,7 +160,7 @@ describe("Retry with options", () => {
         () => Promise.reject(new Error("should have failed")),
         () => {
           expect(finalError).toEqual(new Error("oh no :( 3"));
-        }
+        },
       );
     });
 
@@ -177,7 +177,7 @@ describe("Retry with options", () => {
         () => Promise.reject(new Error("should have failed")),
         () => {
           expect(callbackDone).toBeTruthy();
-        }
+        },
       );
     });
   });
@@ -201,7 +201,7 @@ describe("Retry with options", () => {
         (error: Error) => {
           expect(error).toEqual(new Error("oh no :("));
           expect(calls).toEqual(3);
-        }
+        },
       );
     });
 
@@ -221,7 +221,7 @@ describe("Retry with options", () => {
         () => Promise.reject(new Error("should have failed")),
         () => {
           expect(shouldError).toEqual(new Error("oh no :("));
-        }
+        },
       );
     });
 
@@ -243,7 +243,7 @@ describe("Retry with options", () => {
         (error: Error) => {
           expect(error).toEqual(new Error("oh no :("));
           expect(calls).toEqual(3);
-        }
+        },
       );
     });
 
@@ -259,14 +259,14 @@ describe("Retry with options", () => {
 
       const retrying = retryWithOptions(
         { count: 10, onFinalError, shouldRetry },
-        func
+        func,
       )();
 
       return retrying.then(
         () => Promise.reject(new Error("should have failed")),
         () => {
           expect(finalError).toEqual(new Error("oh no :("));
-        }
+        },
       );
     });
   });
@@ -318,7 +318,7 @@ describe("Retry", () => {
       (error: Error) => {
         expect(error).toEqual(new Error("oh no :("));
         expect(calls).toEqual(3);
-      }
+      },
     );
   });
 });

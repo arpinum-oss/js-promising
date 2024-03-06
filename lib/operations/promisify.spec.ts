@@ -27,7 +27,7 @@ describe("Promisify", () => {
 
       return promisified().then(
         () => Promise.reject(new Error("Should fail")),
-        (rejection) => expect(rejection.message).toEqual("bleh")
+        (rejection) => expect(rejection.message).toEqual("bleh"),
       );
     });
   });
@@ -36,7 +36,7 @@ describe("Promisify", () => {
     const func = (
       arg1: string,
       arg2: string,
-      callback: ErrorFirstCallback<any[]>
+      callback: ErrorFirstCallback<any[]>,
     ) => {
       setTimeout(() => {
         callback(null, [arg1, arg2]);

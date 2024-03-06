@@ -2,7 +2,7 @@ import { AnyFunction } from "../types";
 import { wrap } from "./wrap";
 
 export function compose(
-  functions: AnyFunction[] = []
+  functions: AnyFunction[] = [],
 ): (...args: any[]) => Promise<any> {
   if (functions.length === 0) {
     return (x) => Promise.resolve(x);

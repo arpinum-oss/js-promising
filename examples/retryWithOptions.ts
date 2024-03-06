@@ -6,7 +6,7 @@ const readFileAsync = promisify(readFile);
 
 const readFileAsyncWithRetry = retryWithOptions(
   { count: 5, onTryError, onFinalError },
-  readFileAsync
+  readFileAsync,
 );
 
 function onTryError(error: Error) {

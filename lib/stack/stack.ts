@@ -28,7 +28,7 @@ export function createStack(options?: StackOptions): Stack {
         onRunningUpdated: () => undefined,
         onCountUpdated: () => undefined,
       },
-      options
+      options,
     );
   let head: StackItem | null = null;
   let tail: StackItem | null = null;

@@ -7,7 +7,7 @@ interface Options {
 function rawMapWithOptions<T1, T2>(
   func: (v: T1) => T2 | Promise<T2>,
   options: Options,
-  values: T1[]
+  values: T1[],
 ): Promise<T2[]> {
   const opts = Object.assign({}, { concurrency: 3 }, options);
   return doRawMapWithOptions(wrap(func), opts, values);
@@ -16,7 +16,7 @@ function rawMapWithOptions<T1, T2>(
 function doRawMapWithOptions<T1, T2>(
   func: (v: T1) => Promise<T2>,
   options: Required<Options>,
-  values: T1[]
+  values: T1[],
 ): Promise<T2[]> {
   if (values.length === 0) {
     return Promise.resolve([]);
@@ -77,10 +77,10 @@ const curriedMapWithOptions = autoCurry(rawMapWithOptions);
 export function mapWithOptions<T1, T2>(
   func: (v: T1) => T2 | Promise<T2>,
   options: Options,
-  values: T1[]
+  values: T1[],
 ): Promise<T2[]>;
 export function mapWithOptions<T1, T2>(
-  func: (v: T1) => T2 | Promise<T2>
+  func: (v: T1) => T2 | Promise<T2>,
 ): (options: Options) => (values: T1[]) => Promise<T2[]>;
 export function mapWithOptions<T1, T2>(
   ...args: any[]
@@ -90,7 +90,7 @@ export function mapWithOptions<T1, T2>(
 
 function rawMap<T1, T2>(
   func: (v: T1) => T2 | Promise<T2>,
-  values: T1[]
+  values: T1[],
 ): Promise<T2[]> {
   return rawMapWithOptions(func, {}, values);
 }
@@ -99,10 +99,10 @@ const curriedMap = autoCurry(rawMap);
 
 export function map<T1, T2>(
   func: (v: T1) => T2 | Promise<T2>,
-  values: T1[]
+  values: T1[],
 ): Promise<T2[]>;
 export function map<T1, T2>(
-  func: (v: T1) => T2 | Promise<T2>
+  func: (v: T1) => T2 | Promise<T2>,
 ): (values: T1[]) => Promise<T2[]>;
 export function map<T1, T2>(
   ...args: any[]
@@ -112,7 +112,7 @@ export function map<T1, T2>(
 
 function rawMapSeries<T1, T2>(
   func: (v: T1) => T2 | Promise<T2>,
-  values: T1[]
+  values: T1[],
 ): Promise<T2[]> {
   return rawMapWithOptions(func, { concurrency: 1 }, values);
 }
@@ -121,10 +121,10 @@ const curriedMapSeries = autoCurry(rawMapSeries);
 
 export function mapSeries<T1, T2>(
   func: (v: T1) => T2 | Promise<T2>,
-  values: T1[]
+  values: T1[],
 ): Promise<T2[]>;
 export function mapSeries<T1, T2>(
-  func: (v: T1) => T2 | Promise<T2>
+  func: (v: T1) => T2 | Promise<T2>,
 ): (values: T1[]) => Promise<T2[]>;
 export function mapSeries<T1, T2>(
   ...args: any[]

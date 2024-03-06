@@ -173,7 +173,7 @@ const { timeout } = require("@arpinum/promising");
 
 timeout(
   300,
-  resolveAfter
+  resolveAfter,
 )(5000)
   .then(() => console.log("Will not be called"))
   .catch(console.error);
@@ -198,7 +198,7 @@ const { timeoutWithOptions } = require("@arpinum/promising");
 timeoutWithOptions(
   300,
   { createError },
-  resolveAfter
+  resolveAfter,
 )(5000)
   .then(() => console.log("Will not be called"))
   .catch(console.error);
@@ -274,7 +274,7 @@ queue.enqueue(() => eventuallyLog("3"));
 
 function eventuallyLog(message) {
   return new Promise((resolve) => setTimeout(resolve, 1000)).then(() =>
-    console.log(message)
+    console.log(message),
   );
 }
 ```
@@ -310,7 +310,7 @@ stack.push(() => eventuallyLog("3"));
 
 function eventuallyLog(message) {
   return new Promise((resolve) => setTimeout(resolve, 1000)).then(() =>
-    console.log(message)
+    console.log(message),
   );
 }
 ```

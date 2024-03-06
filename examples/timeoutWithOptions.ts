@@ -3,7 +3,7 @@ import { timeoutWithOptions } from "../lib";
 timeoutWithOptions(
   300,
   { createError },
-  resolveAfter
+  resolveAfter,
 )(5000)
   .then(() => console.log("Will not be called"))
   .catch(console.error);

@@ -27,7 +27,7 @@ export function createQueue(options?: QueueOptions): Queue {
         onRunningUpdated: () => undefined,
         onCountUpdated: () => undefined,
       },
-      options
+      options,
     );
   let head: QueueItem | null = null;
   let tail: QueueItem | null = null;

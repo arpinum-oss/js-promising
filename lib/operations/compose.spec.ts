@@ -91,7 +91,7 @@ describe("Compose", () => {
 
     return globalPromise.then(
       () => Promise.reject(new Error("Should fail")),
-      (rejection) => expect(rejection.message).toEqual("bleh")
+      (rejection) => expect(rejection.message).toEqual("bleh"),
     );
   });
 

@@ -8,7 +8,7 @@ const readFileAsync = promisify(readFile);
 
 const readFileAsyncWithRetry = retryWithOptions(
   { endlessly: true, onTryError },
-  readFileAsync
+  readFileAsync,
 );
 
 function onTryError(error) {

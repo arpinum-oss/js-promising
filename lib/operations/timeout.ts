@@ -13,7 +13,7 @@ interface Options {
 function rawTimeoutWithOptions<F extends AnyFunction>(
   delay: number,
   options: Options,
-  func: F
+  func: F,
 ): PromisifiedFunction<F> {
   return (...args: Parameters<F>) => {
     const opts = Object.assign({}, { createError }, options);
@@ -49,12 +49,12 @@ const curriedTimeoutWithOptions = autoCurry(rawTimeoutWithOptions);
 export function timeoutWithOptions<F extends AnyFunction>(
   delay: number,
   options: Options,
-  func: F
+  func: F,
 ): PromisifiedFunction<F>;
 export function timeoutWithOptions(
-  delay: number
+  delay: number,
 ): (
-  options: Options
+  options: Options,
 ) => <F extends AnyFunction>(func: F) => PromisifiedFunction<F>;
 export function timeoutWithOptions<F extends AnyFunction>(
   ...args: []
@@ -64,7 +64,7 @@ export function timeoutWithOptions<F extends AnyFunction>(
 
 function rawTimeout<F extends AnyFunction>(
   delay: number,
-  func: F
+  func: F,
 ): PromisifiedFunction<F> {
   return rawTimeoutWithOptions(delay, {}, func);
 }
@@ -73,10 +73,10 @@ const curriedTimeout = autoCurry(rawTimeout);
 
 export function timeout<F extends AnyFunction>(
   delay: number,
-  func: F
+  func: F,
 ): PromisifiedFunction<F>;
 export function timeout(
-  delay: number
+  delay: number,
 ): <F extends AnyFunction>(func: F) => PromisifiedFunction<F>;
 export function timeout<F extends AnyFunction>(
   ...args: []

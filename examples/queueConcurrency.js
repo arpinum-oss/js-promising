@@ -24,6 +24,6 @@ setTimeout(() => {
 
 function eventuallyLog(message, delay) {
   return new Promise((resolve) => setTimeout(resolve, delay)).then(() =>
-    console.log(message)
+    console.log(message),
   );
 }

@@ -12,15 +12,15 @@ run();
 async function run() {
   await benchmark(
     () => map((f) => f(), createPromiseFuncs()),
-    "Map (concurrency: 3)"
+    "Map (concurrency: 3)",
   );
   await benchmark(
     () => mapWithOptions((f) => f(), { concurrency: 1 }, createPromiseFuncs()),
-    "Map (concurrency: 1)"
+    "Map (concurrency: 1)",
   );
   await benchmark(
     () => mapSeries((f) => f(), createPromiseFuncs()),
-    "Map series"
+    "Map series",
   );
 }
 

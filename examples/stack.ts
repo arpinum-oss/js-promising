@@ -10,6 +10,6 @@ stack.push(() => eventuallyLog("5"));
 
 function eventuallyLog(message: string) {
   return new Promise((resolve) => setTimeout(resolve, 1000)).then(() =>
-    console.log(message)
+    console.log(message),
   );
 }

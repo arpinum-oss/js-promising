@@ -53,12 +53,12 @@ describe("Map with options", () => {
     const globalPromise = mapWithOptions(
       rejectFor2,
       { concurrency: 3 },
-      [1, 2, 3]
+      [1, 2, 3],
     );
 
     return globalPromise.then(
       () => Promise.reject(new Error("Should fail")),
-      (rejection: Error) => expect(rejection.message).toEqual("bleh")
+      (rejection: Error) => expect(rejection.message).toEqual("bleh"),
     );
 
     function rejectFor2(x: number) {
@@ -70,12 +70,12 @@ describe("Map with options", () => {
     const globalPromise = mapWithOptions(
       rejectForGreaterThan2,
       { concurrency: 3 },
-      [1, 2, 3]
+      [1, 2, 3],
     );
 
     return globalPromise.then(
       () => Promise.reject(new Error("Should fail")),
-      (rejection: Error) => expect(rejection.message).toEqual("bleh2")
+      (rejection: Error) => expect(rejection.message).toEqual("bleh2"),
     );
 
     function rejectForGreaterThan2(x: number) {
@@ -97,7 +97,7 @@ describe("Map with options", () => {
     const globalPromise = mapWithOptions(
       (f) => f(),
       { concurrency: 4 },
-      functions
+      functions,
     );
 
     return globalPromise.then(() => {

@@ -12,7 +12,7 @@ interface Options {
 
 export function rawRetryWithOptions<F extends AnyFunction>(
   options: Options,
-  func: F
+  func: F,
 ): PromisifiedFunction<F> {
   const {
     count = 3,
@@ -33,7 +33,7 @@ export function rawRetryWithOptions<F extends AnyFunction>(
       onFinalError: wrappedOnFinalError,
       shouldRetry: wrappedshouldRetry,
     },
-    wrappedFunc
+    wrappedFunc,
   );
 }
 
@@ -47,7 +47,7 @@ interface ResolvedOptions {
 
 function doRawRetryWithOptions<F extends AnyFunction>(
   options: Required<ResolvedOptions>,
-  func: F
+  func: F,
 ): PromisifiedFunction<F> {
   const { count, endlessly, onTryError, onFinalError, shouldRetry } = options;
   return (...args: Parameters<F>) =>
@@ -66,8 +66,8 @@ function doRawRetryWithOptions<F extends AnyFunction>(
               onFinalError,
               shouldRetry,
             },
-            func
-          )(...args)
+            func,
+          )(...args),
         );
       });
     });
@@ -83,10 +83,10 @@ const curriedRetryWithOptions = autoCurry(rawRetryWithOptions);
 
 export function retryWithOptions<F extends AnyFunction>(
   options: Options,
-  func: F
+  func: F,
 ): PromisifiedFunction<F>;
 export function retryWithOptions(
-  options: Options
+  options: Options,
 ): <F extends AnyFunction>(func: F) => PromisifiedFunction<F>;
 export function retryWithOptions<F extends AnyFunction>(
   ...args: any[]
@@ -96,7 +96,7 @@ export function retryWithOptions<F extends AnyFunction>(
 
 function rawRetry<F extends AnyFunction>(
   count: number,
-  func: F
+  func: F,
 ): PromisifiedFunction<F> {
   return rawRetryWithOptions({ count }, func);
 }
@@ -105,10 +105,10 @@ const curriedRetry = autoCurry(rawRetry);
 
 export function retry<F extends AnyFunction>(
   count: number,
-  func: F
+  func: F,
 ): PromisifiedFunction<F>;
 export function retry(
-  count: number
+  count: number,
 ): <F extends AnyFunction>(func: F) => PromisifiedFunction<F>;
 export function retry<F extends AnyFunction>(
   ...args: any[]

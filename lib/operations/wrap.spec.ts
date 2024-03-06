@@ -21,7 +21,7 @@ describe("Wrap", () => {
 
       return promise.then(
         () => Promise.reject(new Error("Should fail")),
-        (rejection) => expect(rejection.message).toEqual("bleh")
+        (rejection) => expect(rejection.message).toEqual("bleh"),
       );
     });
 
@@ -39,14 +39,14 @@ describe("Wrap", () => {
     it("should reject a rejection", () => {
       const func = () =>
         new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("bleh")), 1)
+          setTimeout(() => reject(new Error("bleh")), 1),
         );
 
       const promise = wrap(func)();
 
       return promise.then(
         () => Promise.reject(new Error("Should fail")),
-        (rejection) => expect(rejection.message).toEqual("bleh")
+        (rejection) => expect(rejection.message).toEqual("bleh"),
       );
     });
   });

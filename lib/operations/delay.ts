@@ -7,11 +7,11 @@ import {
 
 function rawDelay<F extends AnyFunction>(
   milliseconds: number,
-  func: F
+  func: F,
 ): PromisifiedFunction<F> {
   return (...args: Parameters<F>) =>
     new Promise((resolve) => setTimeout(resolve, milliseconds)).then(() =>
-      func(...args)
+      func(...args),
     ) as PromisifiedReturnType<F>;
 }
 
@@ -19,10 +19,10 @@ const curriedDelay = autoCurry(rawDelay);
 
 export function delay<F extends AnyFunction>(
   milliseconds: number,
-  func: F
+  func: F,
 ): PromisifiedFunction<F>;
 export function delay<F extends AnyFunction>(
-  milliseconds: number
+  milliseconds: number,
 ): (func: F) => PromisifiedFunction<F>;
 export function delay<F extends AnyFunction>(
   ...args: any[]

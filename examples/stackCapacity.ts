@@ -14,6 +14,6 @@ setTimeout(() => clearInterval(interval), 5000);
 
 function eventuallyPrint(iteration: number) {
   return new Promise((resolve) => setTimeout(resolve, 700)).then(() =>
-    console.log(`Processing #${iteration}`)
+    console.log(`Processing #${iteration}`),
   );
 }
