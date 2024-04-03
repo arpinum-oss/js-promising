@@ -7,12 +7,14 @@ const count = 100000;
 const queue = createQueue();
 
 const start = new Date();
-return enqueueAll().then(printStatistics);
+
+enqueueAll().then(printStatistics);
+
 // 100000 functions enqueued in 798 ms
 
 function enqueueAll() {
   for (let i = 0; i < count - 1; i++) {
-    enqueue();
+    enqueue().catch(() => undefined);
   }
   return enqueue();
 
